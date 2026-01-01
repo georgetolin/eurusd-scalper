@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EUR/USD Scalping Helper</title>
+  <style>
+    :root {
+      --bg: #0f172a;      /* slate-900 */
+      --card: #111827;    /* gray-900 */
+      --text: #e5e7eb;    /* gray-200 */
+      --accent: #22c55e;  /* green-500 */
+      --danger: #ef4444;  /* red-500 */
+      --muted: #94a3b8;   /* slate-400 */
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;      /* slate-50 */
+      --card: #ffffff;
+      --text: #0f172a;
+      --accent: #16a34a;
+      --danger: #dc2626;
+      --muted: #475569;
+    }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      background: var(--bg); color: var(--text);
+      display: grid; place-items: center; min-height: 100vh; padding: 24px;
+    }
+    .app {
+      width: 100%; max-width: 840px; background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    .sub { color: var(--muted); margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    label { font-size: .9rem; color: var(--muted); display: block; margin-bottom: 6px; }
+    input, select {
+      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.08);
+      background: transparent; color: var(--text);
+    }
+    .actions { display: flex; gap: 12px; margin-top: 16px; }
+    button {
+      padding: 10px 14px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600;
+    }
+    .primary { background: var(--accent); color: white; }
+    .ghost { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,.18); }
+    .result {
+      margin-top: 18px; padding: 16px; border-radius: 12px; background: rgba(255,255,255,.05);
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    }
+    .item { background: rgba(255,255,255,.04); padding: 12px; border-radius: 10px; }
+    .item h3 { margin: 0 0 6px; font-size: .95rem; color: var(--muted); }
+    .big { font-size: 1.2rem; font-weight: 700; }
+    .status { margin-top: 14px; font-size: .95rem; }
+    .ok { color: var(--accent); }
+    .bad { color: var(--danger); }
+    .footer { margin-top: 22px; font-size: .85rem; color: var(--muted); }
+    .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .toggle { font-size:.9rem; color:var(--muted); background:transparent; border:1px solid rgba(255,255,255,.18); padding:6px 10px; border-radius:10px; cursor:pointer;}
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="app">
+    <div class="topbar">
+      <div>
+        <h1>EUR/USD Scalping Helper</h1>
+        <div class="sub">Size positions, check risk/reward, and validate quick scalp setups.</div>
+      </div>
+      <button class="toggle" id="themeBtn">🌙 Dark</button>
+    </div>
+
+    <div class="grid" id="form">
+      <div>
+        <label for="entry">Entry price (EUR/USD)</label>
+        <input id="entry" type="number" step="0.00001" placeholder="e.g., 1.1740" />
+      </div>
+      <div>
+        <label for="stop">Stop loss (price)</label>
+        <input id="stop" type="number" step="0.00001" placeholder="e.g., 1.1735" />
+      </div>
+
+      <div>
+        <label for="take">Take profit (price)</label>
+        <input id="take" type="number" step="0.00001" placeholder="e.g., 1.1750" />
+      </div>
+      <div>
+        <label for="balance">Account balance (USD)</label>
+        <input id="balance" type="number" step="0.01" placeholder="e.g., 10000" />
+      </div>
+
+      <div>
+        <label for="riskPct">Risk per trade (%)</label>
+        <input id="riskPct" type="number" step="0.01" placeholder="e.g., 0.5" />
+      </div>
+      <div>
+        <label for="pipValue">Pip value (per 1 lot)</label>
+        <select id="pipValue">
+          <option value="10">Standard (1.0 lot ≈ $10/pip)</option>
+          <option value="1">Mini (0.1 lot ≈ $1/pip)</option>
+          <option value="0.1">Micro (0.01 lot ≈ $0.10/pip)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="calcBtn">Calculate</button>
+      <button class="ghost" id="resetBtn">Reset</button>
+    </div>
+
+    <div class="result" id="result" style="display:none;">
+      <div class="item">
+        <h3>Pips to Stop</h3>
+        <div class="big" id="pipsStop">—</div>
+      </div>
+      <div class="item">
+        <h3>Pips to Target</h3>
+        <div class="big" id="pipsTake">—</div>
+      </div>
+      <div class="item">
+        <h3>Risk : Reward</h3>
+        <div class="big" id="rr">—</div>
+      </div>
+      <div class="item">
+        <h3>Risk ($)</h3>
+        <div class="big" id="riskUsd">—</div>
+      </div>
+      <div class="item">
+        <h3>Position Size (lots)</h3>
+        <div class="big" id="lots">—</div>
+      </div>
+      <div class="item">
+        <h3>Position Size (units EUR)</h3>
+        <div class="big" id="units">—</div>
+      </div>
+    </div>
+
+    <div class="status" id="status"></div>
+    <div class="footer">
+      <p>Tip: For EUR/USD scalps, typical stops are 5–10 pips and targets 10–20 pips. Trade during the London–New York overlap for best liquidity.</p>
+    </div>
+  </div>
+
+  <script>
+    function toNumber(id) {
+      const v = document.getElementById(id).value;
+      return v === "" ? NaN : Number(v);
+    }
+    function pipDistance(a, b) {
+      // EUR/USD pip = 0.0001 (ignoring fractional pip for simplicity)
+      return Math.abs(a - b) / 0.0001;
+    }
+    function show(el, visible=true) { el.style.display = visible ? "" : "none"; }
+    function clamp(num, min, max) { return Math.min(Math.max(num, min), max); }
+
+    document.getElementById("calcBtn").addEventListener("click", () => {
+      const entry = toNumber("entry");
+      const stop = toNumber("stop");
+      const take = toNumber("take");
+      const balance = toNumber("balance");
+      const riskPct = toNumber("riskPct");
+      const pipValPerLot = toNumber("pipValue"); // $ per pip for 1.0 lot
+
+      const status = document.getElementById("status");
+      const result = document.getElementById("result");
+
+      // Basic validation
+      if ([entry, stop, take, balance, riskPct, pipValPerLot].some(v => Number.isNaN(v))) {
+        status.innerHTML = "Please fill in all fields.";
+        status.className = "status bad";
+        show(result, false);
+        return;
+      }
+      if (riskPct <= 0 || riskPct > 5) {
+        status.innerHTML = "Risk % should be between 0.1 and 5.";
+        status.className = "status bad";
+        show(result, false);
+        return;
+      }
+
+      const pipsStop = pipDistance(entry, stop);
+      const pipsTake = pipDistance(entry, take);
+      const rr = pipsTake / pipsStop;
+
+      // Risk in USD
+      const riskUsd = balance * (riskPct / 100);
+
+      // Position sizing: lots = riskUsd / (pipsStop * pipValPerLot)
+      // pipValPerLot uses $10/pip for 1.0 standard lot EUR/USD.
+      const lots = riskUsd / (pipsStop * pipValPerLot);
+      const lotsClamped = clamp(lots, 0, 1000); // sanity
+      const units = lotsClamped * 100000; // 1 lot ≈ 100,000 units
+
+      // Update UI
+      document.getElementById("pipsStop").innerHTML = pipsStop.toFixed(1);
+      document.getElementById("pipsTake").innerHTML = pipsTake.toFixed(1);
+      document.getElementById("rr").innerHTML = rr.toFixed(2);
+      document.getElementById("riskUsd").innerHTML = "$" + riskUsd.toFixed(2);
+      document.getElementById("lots").innerHTML = lotsClamped.toFixed(3);
+      document.getElementById("units").innerHTML = Math.round(units).toLocaleString();
+
+      show(result, true);
+
+      // Status message
+      if (pipsStop < 3) {
+        status.innerHTML = "Warning: stop distance is under 3 pips—spread/slippage can dominate.";
+        status.className = "status bad";
+      } else if (rr < 1.2) {
+        status.innerHTML = "Risk:Reward below 1.2. Consider improving target or tightening stop.";
+        status.className = "status bad";
+      } else {
+        status.innerHTML = "Setup looks reasonable for a scalping attempt.";
+        status.className = "status ok";
+      }
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      ["entry","stop","take","balance","riskPct"].forEach(id => document.getElementById(id).value = "");
+      document.getElementById("pipValue").value = "10";
+      const status = document.getElementById("status");
+      status.innerHTML = ""; status.className = "status";
+      show(document.getElementById("result"), false);
+    });
+
+    const themeBtn = document.getElementById("themeBtn");
+    themeBtn.addEventListener("click", () => {
+      const root = document.body;
+      const isDark = root.getAttribute("data-theme") !== "light";
+      root.setAttribute("data-theme", isDark ? "light" : "dark");
+      themeBtn.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+    });
+  </script>
+</body>
+</html>
