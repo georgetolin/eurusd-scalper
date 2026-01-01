@@ -1,233 +1,750 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EUR/USD Scalping Helper</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EUR/USD Scalping Calculator | Risk Management Tool</title>
+  <meta name="description" content="Professional position sizing calculator for EUR/USD scalping with risk management">
+  
   <style>
     :root {
-      --bg: #0f172a;      /* slate-900 */
-      --card: #111827;    /* gray-900 */
-      --text: #e5e7eb;    /* gray-200 */
-      --accent: #22c55e;  /* green-500 */
-      --danger: #ef4444;  /* red-500 */
-      --muted: #94a3b8;   /* slate-400 */
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --text-muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-hover: #16a34a;
+      --danger: #ef4444;
+      --warning: #eab308;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-light: rgba(255, 255, 255, 0.05);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --radius: 12px;
+      --transition: all 0.2s ease;
     }
+
     [data-theme="light"] {
-      --bg: #f8fafc;      /* slate-50 */
+      --bg: #f8fafc;
       --card: #ffffff;
-      --text: #0f172a;
+      --text: #1e293b;
+      --text-muted: #64748b;
       --accent: #16a34a;
+      --accent-hover: #15803d;
       --danger: #dc2626;
-      --muted: #475569;
+      --warning: #ca8a04;
+      --border: rgba(0, 0, 0, 0.1);
+      --border-light: rgba(0, 0, 0, 0.05);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
-      background: var(--bg); color: var(--text);
-      display: grid; place-items: center; min-height: 100vh; padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+      display: grid;
+      place-items: center;
     }
+
     .app {
-      width: 100%; max-width: 840px; background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      width: 100%;
+      max-width: 900px;
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
     }
-    h1 { margin: 0 0 8px; font-size: 1.6rem; }
-    .sub { color: var(--muted); margin-bottom: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
-    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
-    label { font-size: .9rem; color: var(--muted); display: block; margin-bottom: 6px; }
+
+    .header {
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, var(--accent), #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 600px;
+    }
+
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      background: var(--border-light);
+      border-color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .required::after {
+      content: "*";
+      color: var(--danger);
+      margin-left: 2px;
+    }
+
     input, select {
-      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.08);
-      background: transparent; color: var(--text);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
+      transition: var(--transition);
     }
-    .actions { display: flex; gap: 12px; margin-top: 16px; }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
     button {
-      padding: 10px 14px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .primary { background: var(--accent); color: white; }
-    .ghost { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,.18); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border-light);
+      border-color: var(--text-muted);
+    }
+
     .result {
-      margin-top: 18px; padding: 16px; border-radius: 12px; background: rgba(255,255,255,.05);
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin-top: 32px;
+      padding: 24px;
+      background: var(--border-light);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      display: none;
+      animation: fadeIn 0.3s ease;
     }
-    .item { background: rgba(255,255,255,.04); padding: 12px; border-radius: 10px; }
-    .item h3 { margin: 0 0 6px; font-size: .95rem; color: var(--muted); }
-    .big { font-size: 1.2rem; font-weight: 700; }
-    .status { margin-top: 14px; font-size: .95rem; }
-    .ok { color: var(--accent); }
-    .bad { color: var(--danger); }
-    .footer { margin-top: 22px; font-size: .85rem; color: var(--muted); }
-    .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-    .toggle { font-size:.9rem; color:var(--muted); background:transparent; border:1px solid rgba(255,255,255,.18); padding:6px 10px; border-radius:10px; cursor:pointer;}
+
+    .result.show {
+      display: block;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .result-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .result-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .result-item h3 {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .result-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      color: var(--accent);
+    }
+
+    .status.warning {
+      background: rgba(234, 179, 8, 0.1);
+      border: 1px solid rgba(234, 179, 8, 0.2);
+      color: var(--warning);
+    }
+
+    .status.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+    }
+
+    .footer {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .tip {
+      background: rgba(34, 197, 94, 0.05);
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .tip strong {
+      color: var(--accent);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--border);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body data-theme="dark">
   <div class="app">
-    <div class="topbar">
-      <div>
-        <h1>EUR/USD Scalping Helper</h1>
-        <div class="sub">Size positions, check risk/reward, and validate quick scalp setups.</div>
+    <div class="header">
+      <div class="top-bar">
+        <div>
+          <h1>EUR/USD Scalping Calculator</h1>
+          <p class="subtitle">Professional position sizing and risk management tool for forex scalping. Calculate optimal lot sizes, risk/reward ratios, and validate your setups.</p>
+        </div>
+        <button class="theme-toggle" id="themeBtn">
+          <span class="theme-icon">🌙</span>
+          <span class="theme-text">Dark Mode</span>
+        </button>
       </div>
-      <button class="toggle" id="themeBtn">🌙 Dark</button>
     </div>
 
-    <div class="grid" id="form">
-      <div>
-        <label for="entry">Entry price (EUR/USD)</label>
-        <input id="entry" type="number" step="0.00001" placeholder="e.g., 1.1740" />
+    <div class="grid">
+      <div class="input-group">
+        <label for="entry" class="required">Entry Price (EUR/USD)</label>
+        <input 
+          type="number" 
+          id="entry" 
+          step="0.00001" 
+          placeholder="e.g., 1.07450"
+          min="0.5"
+          max="2"
+        >
+        <div class="input-hint">Current EUR/USD market price</div>
       </div>
-      <div>
-        <label for="stop">Stop loss (price)</label>
-        <input id="stop" type="number" step="0.00001" placeholder="e.g., 1.1735" />
+      
+      <div class="input-group">
+        <label for="stop" class="required">Stop Loss Price</label>
+        <input 
+          type="number" 
+          id="stop" 
+          step="0.00001" 
+          placeholder="e.g., 1.07350"
+        >
+        <div class="input-hint">Price where you'll exit to limit losses</div>
       </div>
-
-      <div>
-        <label for="take">Take profit (price)</label>
-        <input id="take" type="number" step="0.00001" placeholder="e.g., 1.1750" />
+      
+      <div class="input-group">
+        <label for="take" class="required">Take Profit Price</label>
+        <input 
+          type="number" 
+          id="take" 
+          step="0.00001" 
+          placeholder="e.g., 1.07600"
+        >
+        <div class="input-hint">Price where you'll take profits</div>
       </div>
-      <div>
-        <label for="balance">Account balance (USD)</label>
-        <input id="balance" type="number" step="0.01" placeholder="e.g., 10000" />
+      
+      <div class="input-group">
+        <label for="balance" class="required">Account Balance (USD)</label>
+        <input 
+          type="number" 
+          id="balance" 
+          step="0.01" 
+          placeholder="e.g., 10000"
+          min="100"
+        >
+        <div class="input-hint">Your trading account balance</div>
       </div>
-
-      <div>
-        <label for="riskPct">Risk per trade (%)</label>
-        <input id="riskPct" type="number" step="0.01" placeholder="e.g., 0.5" />
+      
+      <div class="input-group">
+        <label for="riskPct" class="required">Risk Per Trade (%)</label>
+        <input 
+          type="number" 
+          id="riskPct" 
+          step="0.01" 
+          placeholder="e.g., 0.5"
+          min="0.01"
+          max="5"
+          value="0.5"
+        >
+        <div class="input-hint">Recommended: 0.5% - 2% of account balance</div>
       </div>
-      <div>
-        <label for="pipValue">Pip value (per 1 lot)</label>
+      
+      <div class="input-group">
+        <label for="pipValue">Position Size Type</label>
         <select id="pipValue">
-          <option value="10">Standard (1.0 lot ≈ $10/pip)</option>
-          <option value="1">Mini (0.1 lot ≈ $1/pip)</option>
-          <option value="0.1">Micro (0.01 lot ≈ $0.10/pip)</option>
+          <option value="10">Standard (1.0 lot = $10/pip)</option>
+          <option value="1">Mini (0.1 lot = $1/pip)</option>
+          <option value="0.1">Micro (0.01 lot = $0.10/pip)</option>
         </select>
+        <div class="input-hint">Select based on your broker account type</div>
       </div>
     </div>
 
     <div class="actions">
-      <button class="primary" id="calcBtn">Calculate</button>
-      <button class="ghost" id="resetBtn">Reset</button>
+      <button class="btn-primary" id="calcBtn">
+        <span>📊 Calculate Position Size</span>
+      </button>
+      <button class="btn-secondary" id="resetBtn">
+        <span>🔄 Reset All</span>
+      </button>
     </div>
 
-    <div class="result" id="result" style="display:none;">
-      <div class="item">
-        <h3>Pips to Stop</h3>
-        <div class="big" id="pipsStop">—</div>
-      </div>
-      <div class="item">
-        <h3>Pips to Target</h3>
-        <div class="big" id="pipsTake">—</div>
-      </div>
-      <div class="item">
-        <h3>Risk : Reward</h3>
-        <div class="big" id="rr">—</div>
-      </div>
-      <div class="item">
-        <h3>Risk ($)</h3>
-        <div class="big" id="riskUsd">—</div>
-      </div>
-      <div class="item">
-        <h3>Position Size (lots)</h3>
-        <div class="big" id="lots">—</div>
-      </div>
-      <div class="item">
-        <h3>Position Size (units EUR)</h3>
-        <div class="big" id="units">—</div>
+    <div class="result" id="result">
+      <h2 style="margin-bottom: 20px; color: var(--text);">Results</h2>
+      <div class="result-grid">
+        <div class="result-item">
+          <h3>Pips to Stop Loss</h3>
+          <div class="result-value" id="pipsStop">—</div>
+        </div>
+        <div class="result-item">
+          <h3>Pips to Take Profit</h3>
+          <div class="result-value" id="pipsTake">—</div>
+        </div>
+        <div class="result-item">
+          <h3>Risk : Reward Ratio</h3>
+          <div class="result-value" id="rr">—</div>
+        </div>
+        <div class="result-item">
+          <h3>Risk Amount (USD)</h3>
+          <div class="result-value" id="riskUsd">—</div>
+        </div>
+        <div class="result-item">
+          <h3>Position Size (Lots)</h3>
+          <div class="result-value" id="lots">—</div>
+        </div>
+        <div class="result-item">
+          <h3>Position Units (EUR)</h3>
+          <div class="result-value" id="units">—</div>
+        </div>
       </div>
     </div>
 
     <div class="status" id="status"></div>
+
     <div class="footer">
-      <p>Tip: For EUR/USD scalps, typical stops are 5–10 pips and targets 10–20 pips. Trade during the London–New York overlap for best liquidity.</p>
+      <div class="tip">
+        <p><strong>💡 Professional Scalping Tips:</strong></p>
+        <p>• Scalping EUR/USD works best during London (08:00-16:00 GMT) and New York (13:00-21:00 GMT) overlap for maximum liquidity<br>
+        • Maintain at least 1:1.5 risk-reward ratio for sustainable profitability<br>
+        • Consider spreads (typically 0.6-1.2 pips) when setting tight stops<br>
+        • Use 5-15 pip stops for scalping, adjusting for volatility conditions</p>
+      </div>
+      <p style="margin-top: 16px; font-size: 0.8rem; opacity: 0.7;">
+        Disclaimer: This tool is for educational purposes. Trading involves risk of loss.
+      </p>
     </div>
   </div>
 
   <script>
-    function toNumber(id) {
-      const v = document.getElementById(id).value;
-      return v === "" ? NaN : Number(v);
+    class ScalpingCalculator {
+      constructor() {
+        this.initializeElements();
+        this.setupEventListeners();
+        this.loadPreferences();
+      }
+
+      initializeElements() {
+        this.elements = {
+          entry: document.getElementById('entry'),
+          stop: document.getElementById('stop'),
+          take: document.getElementById('take'),
+          balance: document.getElementById('balance'),
+          riskPct: document.getElementById('riskPct'),
+          pipValue: document.getElementById('pipValue'),
+          calcBtn: document.getElementById('calcBtn'),
+          resetBtn: document.getElementById('resetBtn'),
+          themeBtn: document.getElementById('themeBtn'),
+          result: document.getElementById('result'),
+          status: document.getElementById('status'),
+          pipsStop: document.getElementById('pipsStop'),
+          pipsTake: document.getElementById('pipsTake'),
+          rr: document.getElementById('rr'),
+          riskUsd: document.getElementById('riskUsd'),
+          lots: document.getElementById('lots'),
+          units: document.getElementById('units')
+        };
+      }
+
+      setupEventListeners() {
+        this.elements.calcBtn.addEventListener('click', () => this.calculate());
+        this.elements.resetBtn.addEventListener('click', () => this.reset());
+        this.elements.themeBtn.addEventListener('click', () => this.toggleTheme());
+        
+        // Auto-calculate on Enter key in any input
+        const inputs = ['entry', 'stop', 'take', 'balance', 'riskPct'];
+        inputs.forEach(id => {
+          document.getElementById(id).addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.calculate();
+          });
+        });
+
+        // Auto-fill example values on focus for demo
+        this.elements.entry.addEventListener('focus', () => {
+          if (!this.elements.entry.value) {
+            this.elements.entry.value = '1.07450';
+          }
+        });
+      }
+
+      getInputValue(id) {
+        const element = this.elements[id];
+        const value = parseFloat(element.value);
+        return isNaN(value) ? null : value;
+      }
+
+      calculatePipDistance(price1, price2) {
+        // For EUR/USD, 1 pip = 0.0001 (4th decimal place)
+        return Math.abs(price1 - price2) / 0.0001;
+      }
+
+      formatCurrency(amount) {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+        }).format(amount);
+      }
+
+      formatNumber(num, decimals = 3) {
+        return new Intl.NumberFormat('en-US', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        }).format(num);
+      }
+
+      showStatus(message, type = 'error') {
+        const status = this.elements.status;
+        status.textContent = message;
+        status.className = `status show ${type}`;
+      }
+
+      hideStatus() {
+        this.elements.status.className = 'status';
+      }
+
+      calculate() {
+        // Get all input values
+        const entry = this.getInputValue('entry');
+        const stop = this.getInputValue('stop');
+        const take = this.getInputValue('take');
+        const balance = this.getInputValue('balance');
+        const riskPct = this.getInputValue('riskPct');
+        const pipValPerLot = parseFloat(this.elements.pipValue.value);
+
+        // Validate inputs
+        if ([entry, stop, take, balance, riskPct].some(v => v === null)) {
+          this.showStatus('Please fill in all required fields.', 'error');
+          return;
+        }
+
+        if (entry <= 0 || stop <= 0 || take <= 0) {
+          this.showStatus('Prices must be positive numbers.', 'error');
+          return;
+        }
+
+        if (balance < 100) {
+          this.showStatus('Account balance should be at least $100.', 'warning');
+        }
+
+        if (riskPct < 0.01 || riskPct > 5) {
+          this.showStatus('Risk % should be between 0.01% and 5%.', 'error');
+          return;
+        }
+
+        // Validate trade direction
+        if ((take > entry && stop > entry) || (take < entry && stop < entry)) {
+          this.showStatus('Stop loss should be on opposite side of entry from take profit.', 'error');
+          return;
+        }
+
+        // Calculate metrics
+        const pipsStop = this.calculatePipDistance(entry, stop);
+        const pipsTake = this.calculatePipDistance(entry, take);
+        const rrRatio = pipsTake / pipsStop;
+        const riskUsd = balance * (riskPct / 100);
+        
+        // Calculate position size with safety checks
+        let lots = riskUsd / (pipsStop * pipValPerLot);
+        
+        // Apply reasonable limits
+        const maxLots = 1000; // Safety limit
+        lots = Math.min(Math.max(lots, 0.001), maxLots); // Min 0.001 lot
+        
+        const units = lots * 100000;
+
+        // Update UI with results
+        this.elements.pipsStop.textContent = this.formatNumber(pipsStop, 1);
+        this.elements.pipsTake.textContent = this.formatNumber(pipsTake, 1);
+        this.elements.rr.textContent = this.formatNumber(rrRatio, 2);
+        this.elements.riskUsd.textContent = this.formatCurrency(riskUsd);
+        this.elements.lots.textContent = this.formatNumber(lots, 3);
+        this.elements.units.textContent = Math.round(units).toLocaleString();
+
+        // Show results section
+        this.elements.result.classList.add('show');
+
+        // Set status based on analysis
+        this.analyzeTrade(pipsStop, rrRatio, riskPct, lots);
+        
+        // Save preferences
+        this.savePreferences();
+      }
+
+      analyzeTrade(pipsStop, rrRatio, riskPct, lots) {
+        let message = '';
+        let type = 'success';
+
+        if (pipsStop < 3) {
+          message = '⚠️ Stop loss is very tight (under 3 pips). Consider spread impact.';
+          type = 'warning';
+        } else if (pipsStop > 30) {
+          message = '⚠️ Stop loss is wide (over 30 pips). This may not be scalping.';
+          type = 'warning';
+        } else if (rrRatio < 1) {
+          message = '⚠️ Risk:Reward is below 1:1. Consider adjusting your targets.';
+          type = 'warning';
+        } else if (rrRatio >= 1.5) {
+          message = '✅ Good risk:reward ratio! Setup looks promising.';
+          type = 'success';
+        } else {
+          message = '📈 Setup is acceptable. Ensure proper entry timing.';
+          type = 'success';
+        }
+
+        if (riskPct > 2) {
+          message += ' Risk percentage is high for scalping.';
+          type = 'warning';
+        }
+
+        if (lots > 50) {
+          message += ' Position size is large - ensure sufficient account margin.';
+          type = 'warning';
+        }
+
+        this.showStatus(message, type);
+      }
+
+      reset() {
+        // Clear all inputs
+        this.elements.entry.value = '';
+        this.elements.stop.value = '';
+        this.elements.take.value = '';
+        this.elements.balance.value = '';
+        this.elements.riskPct.value = '0.5';
+        this.elements.pipValue.value = '10';
+
+        // Hide results and status
+        this.elements.result.classList.remove('show');
+        this.hideStatus();
+
+        // Focus on first input
+        this.elements.entry.focus();
+      }
+
+      toggleTheme() {
+        const body = document.body;
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        
+        body.setAttribute('data-theme', newTheme);
+        
+        const themeBtn = this.elements.themeBtn;
+        const icon = themeBtn.querySelector('.theme-icon');
+        const text = themeBtn.querySelector('.theme-text');
+        
+        icon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        text.textContent = newTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
+        
+        localStorage.setItem('scalping-calculator-theme', newTheme);
+      }
+
+      loadPreferences() {
+        // Load theme preference
+        const savedTheme = localStorage.getItem('scalping-calculator-theme');
+        if (savedTheme) {
+          document.body.setAttribute('data-theme', savedTheme);
+          const themeBtn = this.elements.themeBtn;
+          const icon = themeBtn.querySelector('.theme-icon');
+          const text = themeBtn.querySelector('.theme-text');
+          
+          icon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+          text.textContent = savedTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
+        }
+
+        // Try to load last inputs
+        try {
+          const saved = localStorage.getItem('scalping-calculator-inputs');
+          if (saved) {
+            const inputs = JSON.parse(saved);
+            Object.keys(inputs).forEach(key => {
+              if (this.elements[key]) {
+                this.elements[key].value = inputs[key];
+              }
+            });
+          }
+        } catch (e) {
+          console.log('No saved inputs found');
+        }
+      }
+
+      savePreferences() {
+        const inputs = {
+          entry: this.elements.entry.value,
+          stop: this.elements.stop.value,
+          take: this.elements.take.value,
+          balance: this.elements.balance.value,
+          riskPct: this.elements.riskPct.value,
+          pipValue: this.elements.pipValue.value
+        };
+        
+        localStorage.setItem('scalping-calculator-inputs', JSON.stringify(inputs));
+      }
     }
-    function pipDistance(a, b) {
-      // EUR/USD pip = 0.0001 (ignoring fractional pip for simplicity)
-      return Math.abs(a - b) / 0.0001;
-    }
-    function show(el, visible=true) { el.style.display = visible ? "" : "none"; }
-    function clamp(num, min, max) { return Math.min(Math.max(num, min), max); }
 
-    document.getElementById("calcBtn").addEventListener("click", () => {
-      const entry = toNumber("entry");
-      const stop = toNumber("stop");
-      const take = toNumber("take");
-      const balance = toNumber("balance");
-      const riskPct = toNumber("riskPct");
-      const pipValPerLot = toNumber("pipValue"); // $ per pip for 1.0 lot
-
-      const status = document.getElementById("status");
-      const result = document.getElementById("result");
-
-      // Basic validation
-      if ([entry, stop, take, balance, riskPct, pipValPerLot].some(v => Number.isNaN(v))) {
-        status.innerHTML = "Please fill in all fields.";
-        status.className = "status bad";
-        show(result, false);
-        return;
-      }
-      if (riskPct <= 0 || riskPct > 5) {
-        status.innerHTML = "Risk % should be between 0.1 and 5.";
-        status.className = "status bad";
-        show(result, false);
-        return;
-      }
-
-      const pipsStop = pipDistance(entry, stop);
-      const pipsTake = pipDistance(entry, take);
-      const rr = pipsTake / pipsStop;
-
-      // Risk in USD
-      const riskUsd = balance * (riskPct / 100);
-
-      // Position sizing: lots = riskUsd / (pipsStop * pipValPerLot)
-      // pipValPerLot uses $10/pip for 1.0 standard lot EUR/USD.
-      const lots = riskUsd / (pipsStop * pipValPerLot);
-      const lotsClamped = clamp(lots, 0, 1000); // sanity
-      const units = lotsClamped * 100000; // 1 lot ≈ 100,000 units
-
-      // Update UI
-      document.getElementById("pipsStop").innerHTML = pipsStop.toFixed(1);
-      document.getElementById("pipsTake").innerHTML = pipsTake.toFixed(1);
-      document.getElementById("rr").innerHTML = rr.toFixed(2);
-      document.getElementById("riskUsd").innerHTML = "$" + riskUsd.toFixed(2);
-      document.getElementById("lots").innerHTML = lotsClamped.toFixed(3);
-      document.getElementById("units").innerHTML = Math.round(units).toLocaleString();
-
-      show(result, true);
-
-      // Status message
-      if (pipsStop < 3) {
-        status.innerHTML = "Warning: stop distance is under 3 pips—spread/slippage can dominate.";
-        status.className = "status bad";
-      } else if (rr < 1.2) {
-        status.innerHTML = "Risk:Reward below 1.2. Consider improving target or tightening stop.";
-        status.className = "status bad";
-      } else {
-        status.innerHTML = "Setup looks reasonable for a scalping attempt.";
-        status.className = "status ok";
-      }
-    });
-
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      ["entry","stop","take","balance","riskPct"].forEach(id => document.getElementById(id).value = "");
-      document.getElementById("pipValue").value = "10";
-      const status = document.getElementById("status");
-      status.innerHTML = ""; status.className = "status";
-      show(document.getElementById("result"), false);
-    });
-
-    const themeBtn = document.getElementById("themeBtn");
-    themeBtn.addEventListener("click", () => {
-      const root = document.body;
-      const isDark = root.getAttribute("data-theme") !== "light";
-      root.setAttribute("data-theme", isDark ? "light" : "dark");
-      themeBtn.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+    // Initialize the calculator when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new ScalpingCalculator();
     });
   </script>
 </body>
