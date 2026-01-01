@@ -1461,169 +1461,341 @@
         </div>
       </div>
 
-      <!-- AI Assistant Tab -->
-      <div class="tab-content" id="ai-assistant-tab">
-        <div class="ai-assistant-container">
-          <div class="ai-header">
-            <div class="ai-title">
-              <span class="ai-icon">🤖</span>
-              AI Trading Assistant
-            </div>
-            <button class="theme-toggle" id="aiThemeBtn">
-              <span class="theme-icon">🌙</span>
-              <span class="theme-text">Dark Mode</span>
-            </button>
+    <!-- AI Assistant Tab -->
+<div class="tab-content" id="ai-assistant-tab">
+  <div class="ai-assistant-container">
+    <div class="ai-header">
+      <div class="ai-title">
+        <span class="ai-icon">🤖</span>
+        AI Trading Assistant
+      </div>
+      <button class="theme-toggle" id="aiThemeBtn">
+        <span class="theme-icon">🌙</span>
+        <span class="theme-text">Dark Mode</span>
+      </button>
+    </div>
+
+    <!-- Operating Mode Toggles -->
+    <div class="mode-toggles">
+      <div class="mode-toggle-group">
+        <label class="mode-label">
+          <input type="checkbox" id="noHallucinationMode" checked>
+          <span class="mode-text">No-Hallucination Mode</span>
+          <span class="mode-badge active">ACTIVE</span>
+        </label>
+        <label class="mode-label">
+          <input type="checkbox" id="backtestMode">
+          <span class="mode-text">Backtest Mode</span>
+          <span class="mode-badge">INACTIVE</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="api-data-container">
+      <div class="api-header">
+        <div class="api-title">
+          <span class="api-logo">Financial API</span>
+          <span>Real-Time Market Data</span>
+          <span class="data-type-badge" id="dataTypeBadge">LIVE</span>
+        </div>
+        <div class="api-time">
+          <span class="time-label">Last Update:</span>
+          <span class="time-value" id="lastUpdateTime">Loading...</span>
+        </div>
+      </div>
+      
+      <div class="api-data-grid">
+        <div class="api-data-item">
+          <span class="api-data-label">Symbol</span>
+          <select class="api-data-value symbol-select" id="aiSymbolSelect">
+            <option value="EURUSD" selected>EUR/USD</option>
+            <option value="GBPUSD">GBP/USD</option>
+            <option value="USDJPY">USD/JPY</option>
+            <option value="AUDUSD">AUD/USD</option>
+            <option value="USDCAD">USD/CAD</option>
+            <option value="USDCHF">USD/CHF</option>
+            <option value="XAUUSD">XAU/USD</option>
+          </select>
+          <span class="api-data-label">Asset Class</span>
+          <span class="api-data-value" id="assetClass">FOREX</span>
+        </div>
+        <div class="api-data-item">
+          <span class="api-data-label">Current Price</span>
+          <span class="api-data-value" id="apiCurrentPrice">1.14996</span>
+          <span class="api-data-label">Bid/Ask</span>
+          <span class="api-data-value" id="apiBidAsk">1.14991 / 1.15001</span>
+        </div>
+        <div class="api-data-item">
+          <span class="api-data-label">Spread</span>
+          <span class="api-data-value" id="apiSpread">1.0 pips</span>
+          <span class="api-data-label">Max Allowed</span>
+          <span class="api-data-value" id="maxSpreadAllowed">1.5 pips</span>
+        </div>
+      </div>
+
+      <!-- Multi-Timeframe Section -->
+      <div class="mtf-section">
+        <h4 style="margin: 15px 0 10px 0;">Multi-Timeframe Analysis</h4>
+        <div class="api-data-grid">
+          <div class="api-data-item">
+            <span class="api-data-label">Primary TF (M5)</span>
+            <span class="api-data-value" id="primaryTimeframe">M5</span>
+            <span class="api-data-label">Market Structure</span>
+            <span class="api-data-value" id="marketStructure">BULLISH</span>
           </div>
-
-          <div class="api-data-container">
-            <div class="api-header">
-              <div class="api-title">
-                <span class="api-logo">Financial API</span>
-                <span>Real-Time Data</span>
-              </div>
-              <button class="refresh-btn" id="refreshMarketData">
-                <span>🔄 Refresh</span>
-              </button>
-            </div>
-            
-            <div class="api-data-grid">
-              <div class="api-data-item">
-                <span class="api-data-label">Current Price</span>
-                <span class="api-data-value" id="apiCurrentPrice">1.14996</span>
-                <span class="api-data-change positive">+0.00023 (0.02%)</span>
-              </div>
-              <div class="api-data-item">
-                <span class="api-data-label">Bid/Ask</span>
-                <span class="api-data-value" id="apiBidAsk">1.14991 / 1.15001</span>
-                <span class="api-data-label">Spread</span>
-                <span class="api-data-value" id="apiSpread">1.0 pips</span>
-              </div>
-              <div class="api-data-item">
-                <span class="api-data-label">Daily High/Low</span>
-                <span class="api-data-value" id="apiHighLow">1.15025 / 1.14750</span>
-                <span class="api-data-label">Volume</span>
-                <span class="api-data-value" id="apiVolume">1.2M</span>
-              </div>
-            </div>
-
-            <div class="indicators-grid">
-              <div class="indicator-item">
-                <span class="indicator-label">EMA20</span>
-                <span class="indicator-value" id="indicatorEMA20">1.14850</span>
-              </div>
-              <div class="indicator-item">
-                <span class="indicator-label">EMA50</span>
-                <span class="indicator-value" id="indicatorEMA50">1.14780</span>
-              </div>
-              <div class="indicator-item">
-                <span class="indicator-label">RSI14</span>
-                <span class="indicator-value" id="indicatorRSI14">58.2</span>
-              </div>
-              <div class="indicator-item">
-                <span class="indicator-label">ATR14</span>
-                <span class="indicator-value" id="indicatorATR14">0.00075</span>
-              </div>
-            </div>
+          <div class="api-data-item">
+            <span class="api-data-label">Higher TF (M15)</span>
+            <span class="api-data-value" id="htfTimeframe">M15</span>
+            <span class="api-data-label">HTF Structure</span>
+            <span class="api-data-value" id="htfMarketStructure">BULLISH</span>
           </div>
-
-          <div class="ai-parameters">
-            <div class="param-group">
-              <span class="param-label">Current Symbol</span>
-              <span class="param-value" id="aiSymbol">EUR/USD</span>
-            </div>
-            <div class="param-group">
-              <span class="param-label">Timeframe</span>
-              <span class="param-value" id="aiTimeframe">5M</span>
-            </div>
-            <div class="param-group">
-              <span class="param-label">Session</span>
-              <span class="param-value" id="aiSession">London</span>
-            </div>
-            <div class="param-group">
-              <span class="param-label">Account Balance</span>
-              <span class="param-value" id="aiBalance">$10,000</span>
-            </div>
-            <div class="param-group">
-              <span class="param-label">Risk %</span>
-              <span class="param-value" id="aiRiskPercent">0.5%</span>
-            </div>
-            <div class="param-group">
-              <span class="param-label">Confidence Threshold</span>
-              <span class="param-value">70%</span>
-            </div>
-          </div>
-
-          <div class="confidence-meter">
-            <div class="confidence-fill" id="confidenceFill" style="width: 75%"></div>
-            <div class="confidence-value" id="confidenceValue">75%</div>
-          </div>
-          <div class="confidence-labels">
-            <span>Low</span>
-            <span>Medium</span>
-            <span>High</span>
-          </div>
-
-          <div class="ai-status" id="aiStatus"></div>
-
-          <button class="generate-btn" id="generateSignalBtn">
-            <span>⚡ Generate AI Signal</span>
-          </button>
-
-          <div class="ai-signal buy" id="aiSignal">
-            <div class="signal-title">
-              <span id="signalIcon">📈</span>
-              <span id="signalText" class="signal-buy">BUY Signal</span>
-            </div>
-            <div id="signalDetails">AI recommends BUY with 75% confidence. RSI: 58.2, Market: Uptrend</div>
-          </div>
-
-          <div class="ai-results" id="aiResults" style="display: block;">
-            <h3 style="margin-bottom: 15px;">AI Analysis Results</h3>
-            <div class="ai-result-grid">
-              <div class="ai-result-item">
-                <span class="ai-result-label">Entry Price</span>
-                <span class="ai-result-value" id="aiEntryPrice">1.15001</span>
-              </div>
-              <div class="ai-result-item">
-                <span class="ai-result-label">Stop Loss</span>
-                <span class="ai-result-value" id="aiStopLoss">1.14774</span>
-              </div>
-              <div class="ai-result-item">
-                <span class="ai-result-label">Take Profit</span>
-                <span class="ai-result-value" id="aiTakeProfit">1.15451</span>
-              </div>
-              <div class="ai-result-item">
-                <span class="ai-result-label">Risk:Reward</span>
-                <span class="ai-result-value" id="aiRiskReward">1:2</span>
-              </div>
-              <div class="ai-result-item">
-                <span class="ai-result-label">Position Size</span>
-                <span class="ai-result-value" id="aiPositionSize">0.67</span>
-              </div>
-              <div class="ai-result-item">
-                <span class="ai-result-label">Dollar Risk</span>
-                <span class="ai-result-value" id="aiDollarRisk">$50.00</span>
-              </div>
-            </div>
-
-            <button class="apply-signal-btn" id="applySignalBtn">
-              <span>📋 Apply to Calculator</span>
-            </button>
-          </div>
-
-          <div class="footer">
-            <div class="tip">
-              <p><strong>🤖 AI Assistant Information:</strong></p>
-              <p>This AI uses real-time financial data and technical indicators to analyze market conditions. It considers EMA, RSI, ATR, market structure, and risk parameters to provide optimal entry/exit points with confidence scoring.</p>
-            </div>
-            <p style="margin-top: 16px; font-size: 0.8rem; opacity: 0.7;">
-              API: Comprehensive Financial API | Model: Llama 3.3 70B Instruct<br>
-              No-Hallucination Mode: Enabled | Confidence Threshold: 70%<br>
-              Generated signals are for educational purposes only.
-            </p>
+          <div class="api-data-item">
+            <span class="api-data-label">MTF Alignment</span>
+            <span class="api-data-value" id="mtfAlignment">ALIGNED</span>
+            <span class="api-data-label">Session</span>
+            <span class="api-data-value" id="currentSession">London</span>
           </div>
         </div>
       </div>
+
+      <!-- Technical Indicators -->
+      <h4 style="margin: 15px 0 10px 0;">Technical Indicators</h4>
+      <div class="indicators-grid expanded">
+        <div class="indicator-item">
+          <span class="indicator-label">EMA20</span>
+          <span class="indicator-value" id="indicatorEMA20">1.14850</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">EMA50</span>
+          <span class="indicator-value" id="indicatorEMA50">1.14780</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">RSI14</span>
+          <span class="indicator-value" id="indicatorRSI14">58.2</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">ATR14</span>
+          <span class="indicator-value" id="indicatorATR14">0.00075</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">Swing High</span>
+          <span class="indicator-value" id="swingHigh">1.15025</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">Swing Low</span>
+          <span class="indicator-value" id="swingLow">1.14750</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">HTF EMA20</span>
+          <span class="indicator-value" id="htfEMA20">1.14820</span>
+        </div>
+        <div class="indicator-item">
+          <span class="indicator-label">HTF EMA50</span>
+          <span class="indicator-value" id="htfEMA50">1.14760</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account & Risk Parameters -->
+    <div class="risk-parameters">
+      <h4 style="margin: 0 0 15px 0;">Account & Risk Parameters</h4>
+      <div class="ai-parameters expanded">
+        <div class="param-group">
+          <span class="param-label">Account Balance</span>
+          <input type="number" class="param-input" id="accountBalance" value="10000" min="100" step="100">
+          <span class="param-hint">USD</span>
+        </div>
+        <div class="param-group">
+          <span class="param-label">Risk %</span>
+          <input type="number" class="param-input" id="riskPercent" value="0.5" min="0.1" max="5" step="0.1">
+          <span class="param-hint">%</span>
+        </div>
+        <div class="param-group">
+          <span class="param-label">Max Dollar Risk</span>
+          <span class="param-value" id="maxDollarRisk">$50.00</span>
+        </div>
+        <div class="param-group">
+          <span class="param-label">Min R:R</span>
+          <input type="number" class="param-input" id="minRR" value="1.2" min="1.0" max="3.0" step="0.1">
+          <span class="param-hint">ratio</span>
+        </div>
+        <div class="param-group">
+          <span class="param-label">Confidence Threshold</span>
+          <input type="number" class="param-input" id="confidenceThreshold" value="70" min="50" max="90" step="1">
+          <span class="param-hint">%</span>
+        </div>
+        <div class="param-group">
+          <span class="param-label">News Risk</span>
+          <select class="param-select" id="newsRisk">
+            <option value="LOW" selected>LOW</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confidence Meter -->
+    <div class="confidence-section">
+      <div class="confidence-header">
+        <span class="confidence-label">Confidence Score</span>
+        <span class="confidence-threshold">Threshold: <span id="thresholdValue">70</span>%</span>
+      </div>
+      <div class="confidence-meter">
+        <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+        <div class="confidence-value" id="confidenceValue">0%</div>
+      </div>
+      <div class="confidence-labels">
+        <span>Low (0-49)</span>
+        <span>Medium (50-69)</span>
+        <span>High (70-89)</span>
+        <span>Very High (90-100)</span>
+      </div>
+      
+      <!-- Confidence Breakdown -->
+      <div class="confidence-breakdown" id="confidenceBreakdown" style="display: none;">
+        <div class="breakdown-item">
+          <span class="breakdown-label">EMA Alignment:</span>
+          <span class="breakdown-value" id="scoreEMA">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Market Structure:</span>
+          <span class="breakdown-value" id="scoreStructure">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">RSI Confirmation:</span>
+          <span class="breakdown-value" id="scoreRSI">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Pullback Quality:</span>
+          <span class="breakdown-value" id="scorePullback">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Spread Efficiency:</span>
+          <span class="breakdown-value" id="scoreSpread">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">R:R Exceedance:</span>
+          <span class="breakdown-value" id="scoreRR">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">MTF Alignment:</span>
+          <span class="breakdown-value" id="scoreMTF">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Session Penalty:</span>
+          <span class="breakdown-value" id="scoreSession">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Status & Validation -->
+    <div class="validation-section">
+      <div class="validation-header">
+        <h4>Data Validation</h4>
+        <span class="validation-status" id="validationStatus">PENDING</span>
+      </div>
+      <div class="validation-grid" id="validationGrid">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </div>
+
+    <div class="ai-status" id="aiStatus"></div>
+
+    <button class="generate-btn" id="generateSignalBtn">
+      <span>⚡ Generate AI Signal</span>
+    </button>
+
+    <!-- Data Status Display -->
+    <div class="data-status" id="dataStatus" style="display: none;">
+      <div class="status-item">
+        <span class="status-label">Valid Data:</span>
+        <span class="status-value" id="validDataStatus">NO</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Data Type:</span>
+        <span class="status-value" id="dataTypeStatus">—</span>
+      </div>
+    </div>
+
+    <!-- AI Signal Display -->
+    <div class="ai-signal" id="aiSignal">
+      <div class="signal-header">
+        <span class="signal-icon" id="signalIcon">📊</span>
+        <div class="signal-title-group">
+          <div class="signal-title" id="signalTitle">No Signal Generated</div>
+          <div class="signal-subtitle" id="signalSubtitle">Click "Generate AI Signal" to analyze the market</div>
+        </div>
+        <span class="signal-confidence" id="signalConfidence">—</span>
+      </div>
+      <div class="signal-details" id="signalDetails"></div>
+    </div>
+
+    <!-- Rejection Reasons (shown when NO TRADE) -->
+    <div class="rejection-reasons" id="rejectionReasons" style="display: none;">
+      <h4>Rejection Reasons</h4>
+      <ul id="rejectionList">
+        <!-- Will be populated by JavaScript -->
+      </ul>
+    </div>
+
+    <!-- Trade Results (shown when BUY/SELL) -->
+    <div class="ai-results" id="aiResults" style="display: none;">
+      <div class="results-header">
+        <h3>Trade Analysis Results</h3>
+        <span class="results-confidence" id="resultsConfidence">—</span>
+      </div>
+      
+      <div class="ai-result-grid expanded">
+        <div class="ai-result-item">
+          <span class="ai-result-label">Entry Price</span>
+          <span class="ai-result-value" id="aiEntryPrice">—</span>
+        </div>
+        <div class="ai-result-item">
+          <span class="ai-result-label">Stop Loss</span>
+          <span class="ai-result-value" id="aiStopLoss">—</span>
+        </div>
+        <div class="ai-result-item">
+          <span class="ai-result-label">Take Profit</span>
+          <span class="ai-result-value" id="aiTakeProfit">—</span>
+        </div>
+        <div class="ai-result-item">
+          <span class="ai-result-label">Risk:Reward</span>
+          <span class="ai-result-value" id="aiRiskReward">—</span>
+        </div>
+        <div class="ai-result-item">
+          <span class="ai-result-label">Stop Loss (Pips)</span>
+          <span class="ai-result-value" id="aiStopLossPips">—</span>
+        </div>
+        <div class="ai-result-item">
+          <span class="ai-result-label">Take Profit (Pips)</span>
+          <span class="ai-result-value" id="aiTakeProfitPips">—</span>
+        </div>
+        <div class="ai-result-item">
+          <span class="ai-result-label">Position Size (Lots)</span>
+          <span class="ai-result-value" id="aiPositionSize">—</span>
+        </div>
+        <div class="ai-result-item">
+          <span class="ai-result-label">Dollar Risk</span>
+          <span class="ai-result-value" id="aiDollarRisk">—</span>
+        </div>
+      </div>
+
+      <button class="apply-signal-btn" id="applySignalBtn">
+        <span>📋 Apply to Calculator</span>
+      </button>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      <p><strong>DISCLAIMER:</strong> Automated market analysis only. Not financial advice.</p>
+      <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.7;">
+        Model: meta/llama-3.3-70b-instruct | API: Comprehensive Financial API<br>
+        Backtest Compatible | No-Hallucination Mode: Enabled
+      </p>
+    </div>
+  </div>
+</div>
 
       <!-- Market Data Tab -->
       <div class="tab-content" id="market-data-tab">
@@ -2292,6 +2464,432 @@
         status.className = 'ai-status';
       }, 5000);
     }
+
+    /* Add to existing CSS */
+
+/* Mode Toggles */
+.mode-toggles {
+  margin: 15px 0 20px 0;
+  padding: 15px;
+  background: var(--border-light);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.mode-toggle-group {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.mode-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: var(--transition);
+}
+
+.mode-label:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mode-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.mode-text {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.mode-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: var(--danger);
+  color: white;
+}
+
+.mode-badge.active {
+  background: var(--accent);
+}
+
+/* Data Type Badge */
+.data-type-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: var(--api-blue);
+  color: white;
+  margin-left: 10px;
+}
+
+/* API Time */
+.api-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.time-label {
+  color: var(--text-muted);
+}
+
+.time-value {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Symbol Select */
+.symbol-select {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* MTF Section */
+.mtf-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+}
+
+/* Expanded Indicators Grid */
+.indicators-grid.expanded {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 768px) {
+  .indicators-grid.expanded {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Risk Parameters */
+.risk-parameters {
+  margin: 20px 0;
+  padding: 20px;
+  background: var(--border-light);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.ai-parameters.expanded {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .ai-parameters.expanded {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ai-parameters.expanded {
+    grid-template-columns: 1fr;
+  }
+}
+
+.param-input {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  width: 100px;
+}
+
+.param-select {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.param-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-left: 5px;
+}
+
+/* Confidence Section */
+.confidence-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(34, 197, 94, 0.02));
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.confidence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.confidence-label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.confidence-threshold {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+#thresholdValue {
+  font-weight: 700;
+  color: var(--api-blue);
+}
+
+/* Confidence Breakdown */
+.confidence-breakdown {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.breakdown-item:last-child {
+  border-bottom: none;
+}
+
+.breakdown-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.breakdown-value {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Validation Section */
+.validation-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: var(--border-light);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.validation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.validation-status {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.validation-status[data-status="PENDING"] {
+  background: var(--warning);
+  color: white;
+}
+
+.validation-status[data-status="PASSED"] {
+  background: var(--accent);
+  color: white;
+}
+
+.validation-status[data-status="FAILED"] {
+  background: var(--danger);
+  color: white;
+}
+
+.validation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.validation-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+}
+
+.validation-icon {
+  font-size: 1rem;
+}
+
+.validation-icon.valid {
+  color: var(--accent);
+}
+
+.validation-icon.invalid {
+  color: var(--danger);
+}
+
+.validation-text {
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+/* Data Status */
+.data-status {
+  margin: 15px 0;
+  padding: 15px;
+  background: var(--border-light);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.status-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.status-value {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Signal Header */
+.signal-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.signal-title-group {
+  flex: 1;
+}
+
+.signal-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.signal-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.signal-confidence {
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Rejection Reasons */
+.rejection-reasons {
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+  border-radius: var(--radius);
+  border: 1px solid var(--danger);
+}
+
+.rejection-reasons h4 {
+  color: var(--danger);
+  margin-bottom: 15px;
+}
+
+#rejectionList {
+  padding-left: 20px;
+}
+
+#rejectionList li {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+/* Results Header */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.results-confidence {
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 6px 15px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--api-blue), var(--accent));
+  color: white;
+}
+
+/* Expanded Results Grid */
+.ai-result-grid.expanded {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .ai-result-grid.expanded {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ai-result-grid.expanded {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Disclaimer */
+.disclaimer {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.disclaimer strong {
+  color: var(--warning);
+}
     
     // Initialize TradingView chart
     setTimeout(function() {
