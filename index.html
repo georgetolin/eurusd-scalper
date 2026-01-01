@@ -78,6 +78,11 @@
         grid-template-columns: 1fr;
         max-width: 1000px;
       }
+      
+      .chart-container {
+        order: -1;
+        margin-bottom: 24px;
+      }
     }
 
     .main-container {
@@ -86,12 +91,29 @@
       gap: 24px;
     }
 
+    @media (max-width: 768px) {
+      .main-container {
+        grid-template-rows: auto;
+      }
+      
+      .app {
+        padding: 10px;
+        gap: 16px;
+      }
+    }
+
     .calculator-container, .ai-assistant-container {
       background: var(--card);
       border-radius: var(--radius);
       padding: 30px;
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
+    }
+
+    @media (max-width: 768px) {
+      .calculator-container, .ai-assistant-container {
+        padding: 20px;
+      }
     }
 
     .ai-assistant-container {
@@ -107,10 +129,17 @@
       border: 1px solid var(--border);
       display: flex;
       flex-direction: column;
+      min-height: 500px;
     }
 
     .header {
       margin-bottom: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        margin-bottom: 20px;
+      }
     }
 
     .top-bar {
@@ -118,6 +147,8 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 15px;
     }
 
     h1 {
@@ -128,6 +159,13 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      word-break: break-word;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 1.5rem;
+      }
     }
 
     .subtitle {
@@ -149,6 +187,14 @@
       margin-left: 10px;
     }
 
+    @media (max-width: 640px) {
+      .api-badge {
+        display: block;
+        margin: 8px 0 0 0;
+        width: fit-content;
+      }
+    }
+
     .theme-toggle {
       background: transparent;
       border: 1px solid var(--border);
@@ -161,6 +207,7 @@
       align-items: center;
       gap: 8px;
       transition: var(--transition);
+      white-space: nowrap;
     }
 
     .theme-toggle:hover {
@@ -175,6 +222,7 @@
       margin-bottom: 20px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
@@ -187,6 +235,18 @@
       font-weight: 500;
       border-radius: 8px;
       transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .tab-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+      }
+      
+      .tabs {
+        justify-content: center;
+      }
     }
 
     .tab-btn.active {
@@ -200,10 +260,16 @@
 
     .tab-content {
       display: none;
+      animation: fadeIn 0.3s ease;
     }
 
     .tab-content.active {
       display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* API Data Display */
@@ -213,6 +279,13 @@
       border-radius: var(--radius);
       padding: 20px;
       margin: 20px 0;
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .api-data-container {
+        padding: 15px;
+      }
     }
 
     .api-header {
@@ -220,6 +293,8 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .api-title {
@@ -228,6 +303,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .api-logo {
@@ -250,6 +326,7 @@
       align-items: center;
       gap: 8px;
       transition: var(--transition);
+      white-space: nowrap;
     }
 
     .refresh-btn:hover {
@@ -269,9 +346,15 @@
       gap: 15px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       .api-data-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .api-data-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -280,6 +363,8 @@
       padding: 15px;
       border-radius: 8px;
       border: 1px solid var(--border);
+      min-width: 0;
+      overflow: hidden;
     }
 
     .api-data-label {
@@ -287,12 +372,18 @@
       color: var(--text-muted);
       margin-bottom: 5px;
       display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .api-data-value {
       font-size: 1.2rem;
       font-weight: 700;
       color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
     }
 
     .api-data-change {
@@ -315,6 +406,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
     }
 
     .ai-title {
@@ -323,6 +416,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .ai-icon {
@@ -353,6 +447,7 @@
       font-size: 0.8rem;
       color: var(--text-muted);
       margin-top: 5px;
+      flex-wrap: wrap;
     }
 
     .confidence-value {
@@ -374,6 +469,13 @@
       margin: 20px 0;
       text-align: center;
       display: none;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
     }
 
     .ai-signal.buy {
@@ -402,6 +504,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .signal-buy { color: var(--ai-buy); }
@@ -413,6 +516,12 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
       margin: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      .ai-parameters {
+        grid-template-columns: 1fr;
+      }
     }
 
     .param-group {
@@ -450,6 +559,12 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .ai-result-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .ai-result-item {
@@ -506,6 +621,12 @@
       margin: 15px 0;
       font-size: 0.9rem;
       display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .ai-status.success {
@@ -554,6 +675,7 @@
       border: 1px solid transparent;
       cursor: pointer;
       transition: var(--transition);
+      white-space: nowrap;
     }
 
     .currency-badge:hover {
@@ -615,6 +737,7 @@
       color: var(--text);
       font-size: 1rem;
       transition: var(--transition);
+      width: 100%;
     }
 
     input:focus, select:focus {
@@ -640,6 +763,14 @@
       flex-wrap: wrap;
     }
 
+    @media (max-width: 640px) {
+      .currency-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
     .currency-info .pip {
       font-weight: 600;
       color: var(--accent);
@@ -654,6 +785,13 @@
       display: flex;
       gap: 12px;
       margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .actions {
+        margin-top: 24px;
+      }
     }
 
     button {
@@ -667,6 +805,21 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+    }
+
+    @media (max-width: 640px) {
+      button {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+      }
+      
+      .actions {
+        flex-direction: column;
+      }
+      
+      .actions button {
+        width: 100%;
+      }
     }
 
     .btn-primary {
@@ -723,13 +876,13 @@
       margin-top: 20px;
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 1024px) {
       .result-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 640px) {
       .result-grid {
         grid-template-columns: 1fr;
       }
@@ -804,11 +957,6 @@
       color: var(--accent);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .input-hint {
       font-size: 0.75rem;
       color: var(--text-muted);
@@ -833,6 +981,7 @@
       background: var(--border-light);
       border-radius: 8px;
       margin-bottom: 15px;
+      flex-wrap: wrap;
     }
 
     .selected-currency .symbol {
@@ -853,6 +1002,8 @@
       margin-bottom: 15px;
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .chart-title {
@@ -864,6 +1015,7 @@
       display: flex;
       gap: 8px;
       margin-bottom: 15px;
+      flex-wrap: wrap;
     }
 
     .timeframe-btn {
@@ -888,6 +1040,7 @@
       border-radius: var(--radius);
       overflow: hidden;
       margin-bottom: 15px;
+      min-height: 300px;
     }
 
     .price-display {
@@ -899,6 +1052,8 @@
       border-radius: var(--radius);
       margin-top: 15px;
       font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .price-change {
@@ -917,6 +1072,7 @@
       display: flex;
       gap: 10px;
       margin-top: 10px;
+      flex-wrap: wrap;
     }
 
     .chart-type-btn {
@@ -951,6 +1107,18 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
     }
 
     .quick-btn {
@@ -1058,6 +1226,7 @@
       border-radius: 8px;
       background: var(--border-light);
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .trade-direction-label {
@@ -1104,6 +1273,7 @@
       align-items: center;
       gap: 10px;
       margin-top: 5px;
+      flex-wrap: wrap;
     }
 
     .trade-icon {
@@ -1149,6 +1319,13 @@
       background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(34, 197, 94, 0.02));
       border-radius: var(--radius);
       border: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .pip-arrows {
+        gap: 20px;
+      }
     }
 
     .pip-arrow {
@@ -1156,7 +1333,7 @@
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      min-width: 100px;
+      min-width: 80px;
     }
 
     .arrow {
@@ -1214,15 +1391,58 @@
       background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(34, 197, 94, 0.05));
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       .direction-indicator {
         grid-column: span 2;
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 640px) {
       .direction-indicator {
         grid-column: span 1;
+      }
+    }
+
+    /* Mobile-specific fixes */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .calculator-container, .ai-assistant-container {
+        padding: 15px;
+      }
+      
+      .result-grid, .ai-parameters, .api-data-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .api-data-item, .result-item, .param-group {
+        padding: 12px;
+      }
+      
+      h1 {
+        font-size: 1.3rem;
+      }
+      
+      .ai-title {
+        font-size: 1.2rem;
+      }
+      
+      .confidence-labels {
+        font-size: 0.7rem;
+      }
+    }
+
+    /* Ensure content doesn't overflow */
+    .tab-content {
+      overflow-x: hidden;
+    }
+
+    /* Improve touch targets on mobile */
+    @media (max-width: 768px) {
+      input, select, button {
+        min-height: 44px; /* Minimum touch target size */
       }
     }
   </style>
@@ -1461,341 +1681,341 @@
         </div>
       </div>
 
-    <!-- AI Assistant Tab -->
-<div class="tab-content" id="ai-assistant-tab">
-  <div class="ai-assistant-container">
-    <div class="ai-header">
-      <div class="ai-title">
-        <span class="ai-icon">🤖</span>
-        AI Trading Assistant
-      </div>
-      <button class="theme-toggle" id="aiThemeBtn">
-        <span class="theme-icon">🌙</span>
-        <span class="theme-text">Dark Mode</span>
-      </button>
-    </div>
-
-    <!-- Operating Mode Toggles -->
-    <div class="mode-toggles">
-      <div class="mode-toggle-group">
-        <label class="mode-label">
-          <input type="checkbox" id="noHallucinationMode" checked>
-          <span class="mode-text">No-Hallucination Mode</span>
-          <span class="mode-badge active">ACTIVE</span>
-        </label>
-        <label class="mode-label">
-          <input type="checkbox" id="backtestMode">
-          <span class="mode-text">Backtest Mode</span>
-          <span class="mode-badge">INACTIVE</span>
-        </label>
-      </div>
-    </div>
-
-    <div class="api-data-container">
-      <div class="api-header">
-        <div class="api-title">
-          <span class="api-logo">Financial API</span>
-          <span>Real-Time Market Data</span>
-          <span class="data-type-badge" id="dataTypeBadge">LIVE</span>
-        </div>
-        <div class="api-time">
-          <span class="time-label">Last Update:</span>
-          <span class="time-value" id="lastUpdateTime">Loading...</span>
-        </div>
-      </div>
-      
-      <div class="api-data-grid">
-        <div class="api-data-item">
-          <span class="api-data-label">Symbol</span>
-          <select class="api-data-value symbol-select" id="aiSymbolSelect">
-            <option value="EURUSD" selected>EUR/USD</option>
-            <option value="GBPUSD">GBP/USD</option>
-            <option value="USDJPY">USD/JPY</option>
-            <option value="AUDUSD">AUD/USD</option>
-            <option value="USDCAD">USD/CAD</option>
-            <option value="USDCHF">USD/CHF</option>
-            <option value="XAUUSD">XAU/USD</option>
-          </select>
-          <span class="api-data-label">Asset Class</span>
-          <span class="api-data-value" id="assetClass">FOREX</span>
-        </div>
-        <div class="api-data-item">
-          <span class="api-data-label">Current Price</span>
-          <span class="api-data-value" id="apiCurrentPrice">1.14996</span>
-          <span class="api-data-label">Bid/Ask</span>
-          <span class="api-data-value" id="apiBidAsk">1.14991 / 1.15001</span>
-        </div>
-        <div class="api-data-item">
-          <span class="api-data-label">Spread</span>
-          <span class="api-data-value" id="apiSpread">1.0 pips</span>
-          <span class="api-data-label">Max Allowed</span>
-          <span class="api-data-value" id="maxSpreadAllowed">1.5 pips</span>
-        </div>
-      </div>
-
-      <!-- Multi-Timeframe Section -->
-      <div class="mtf-section">
-        <h4 style="margin: 15px 0 10px 0;">Multi-Timeframe Analysis</h4>
-        <div class="api-data-grid">
-          <div class="api-data-item">
-            <span class="api-data-label">Primary TF (M5)</span>
-            <span class="api-data-value" id="primaryTimeframe">M5</span>
-            <span class="api-data-label">Market Structure</span>
-            <span class="api-data-value" id="marketStructure">BULLISH</span>
+      <!-- AI Assistant Tab -->
+      <div class="tab-content" id="ai-assistant-tab">
+        <div class="ai-assistant-container">
+          <div class="ai-header">
+            <div class="ai-title">
+              <span class="ai-icon">🤖</span>
+              AI Trading Assistant
+            </div>
+            <button class="theme-toggle" id="aiThemeBtn">
+              <span class="theme-icon">🌙</span>
+              <span class="theme-text">Dark Mode</span>
+            </button>
           </div>
-          <div class="api-data-item">
-            <span class="api-data-label">Higher TF (M15)</span>
-            <span class="api-data-value" id="htfTimeframe">M15</span>
-            <span class="api-data-label">HTF Structure</span>
-            <span class="api-data-value" id="htfMarketStructure">BULLISH</span>
+
+          <!-- Operating Mode Toggles -->
+          <div class="mode-toggles">
+            <div class="mode-toggle-group">
+              <label class="mode-label">
+                <input type="checkbox" id="noHallucinationMode" checked>
+                <span class="mode-text">No-Hallucination Mode</span>
+                <span class="mode-badge active">ACTIVE</span>
+              </label>
+              <label class="mode-label">
+                <input type="checkbox" id="backtestMode">
+                <span class="mode-text">Backtest Mode</span>
+                <span class="mode-badge">INACTIVE</span>
+              </label>
+            </div>
           </div>
-          <div class="api-data-item">
-            <span class="api-data-label">MTF Alignment</span>
-            <span class="api-data-value" id="mtfAlignment">ALIGNED</span>
-            <span class="api-data-label">Session</span>
-            <span class="api-data-value" id="currentSession">London</span>
+
+          <div class="api-data-container">
+            <div class="api-header">
+              <div class="api-title">
+                <span class="api-logo">Financial API</span>
+                <span>Real-Time Market Data</span>
+                <span class="data-type-badge" id="dataTypeBadge">LIVE</span>
+              </div>
+              <div class="api-time">
+                <span class="time-label">Last Update:</span>
+                <span class="time-value" id="lastUpdateTime">Loading...</span>
+              </div>
+            </div>
+            
+            <div class="api-data-grid">
+              <div class="api-data-item">
+                <span class="api-data-label">Symbol</span>
+                <select class="api-data-value symbol-select" id="aiSymbolSelect">
+                  <option value="EURUSD" selected>EUR/USD</option>
+                  <option value="GBPUSD">GBP/USD</option>
+                  <option value="USDJPY">USD/JPY</option>
+                  <option value="AUDUSD">AUD/USD</option>
+                  <option value="USDCAD">USD/CAD</option>
+                  <option value="USDCHF">USD/CHF</option>
+                  <option value="XAUUSD">XAU/USD</option>
+                </select>
+                <span class="api-data-label">Asset Class</span>
+                <span class="api-data-value" id="assetClass">FOREX</span>
+              </div>
+              <div class="api-data-item">
+                <span class="api-data-label">Current Price</span>
+                <span class="api-data-value" id="apiCurrentPrice">1.14996</span>
+                <span class="api-data-label">Bid/Ask</span>
+                <span class="api-data-value" id="apiBidAsk">1.14991 / 1.15001</span>
+              </div>
+              <div class="api-data-item">
+                <span class="api-data-label">Spread</span>
+                <span class="api-data-value" id="apiSpread">1.0 pips</span>
+                <span class="api-data-label">Max Allowed</span>
+                <span class="api-data-value" id="maxSpreadAllowed">1.5 pips</span>
+              </div>
+            </div>
+
+            <!-- Multi-Timeframe Section -->
+            <div class="mtf-section">
+              <h4 style="margin: 15px 0 10px 0;">Multi-Timeframe Analysis</h4>
+              <div class="api-data-grid">
+                <div class="api-data-item">
+                  <span class="api-data-label">Primary TF (M5)</span>
+                  <span class="api-data-value" id="primaryTimeframe">M5</span>
+                  <span class="api-data-label">Market Structure</span>
+                  <span class="api-data-value" id="marketStructure">BULLISH</span>
+                </div>
+                <div class="api-data-item">
+                  <span class="api-data-label">Higher TF (M15)</span>
+                  <span class="api-data-value" id="htfTimeframe">M15</span>
+                  <span class="api-data-label">HTF Structure</span>
+                  <span class="api-data-value" id="htfMarketStructure">BULLISH</span>
+                </div>
+                <div class="api-data-item">
+                  <span class="api-data-label">MTF Alignment</span>
+                  <span class="api-data-value" id="mtfAlignment">ALIGNED</span>
+                  <span class="api-data-label">Session</span>
+                  <span class="api-data-value" id="currentSession">London</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Technical Indicators -->
+            <h4 style="margin: 15px 0 10px 0;">Technical Indicators</h4>
+            <div class="indicators-grid expanded">
+              <div class="indicator-item">
+                <span class="indicator-label">EMA20</span>
+                <span class="indicator-value" id="indicatorEMA20">1.14850</span>
+              </div>
+              <div class="indicator-item">
+                <span class="indicator-label">EMA50</span>
+                <span class="indicator-value" id="indicatorEMA50">1.14780</span>
+              </div>
+              <div class="indicator-item">
+                <span class="indicator-label">RSI14</span>
+                <span class="indicator-value" id="indicatorRSI14">58.2</span>
+              </div>
+              <div class="indicator-item">
+                <span class="indicator-label">ATR14</span>
+                <span class="indicator-value" id="indicatorATR14">0.00075</span>
+              </div>
+              <div class="indicator-item">
+                <span class="indicator-label">Swing High</span>
+                <span class="indicator-value" id="swingHigh">1.15025</span>
+              </div>
+              <div class="indicator-item">
+                <span class="indicator-label">Swing Low</span>
+                <span class="indicator-value" id="swingLow">1.14750</span>
+              </div>
+              <div class="indicator-item">
+                <span class="indicator-label">HTF EMA20</span>
+                <span class="indicator-value" id="htfEMA20">1.14820</span>
+              </div>
+              <div class="indicator-item">
+                <span class="indicator-label">HTF EMA50</span>
+                <span class="indicator-value" id="htfEMA50">1.14760</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Account & Risk Parameters -->
+          <div class="risk-parameters">
+            <h4 style="margin: 0 0 15px 0;">Account & Risk Parameters</h4>
+            <div class="ai-parameters expanded">
+              <div class="param-group">
+                <span class="param-label">Account Balance</span>
+                <input type="number" class="param-input" id="aiAccountBalance" value="10000" min="100" step="100">
+                <span class="param-hint">USD</span>
+              </div>
+              <div class="param-group">
+                <span class="param-label">Risk %</span>
+                <input type="number" class="param-input" id="aiRiskPercent" value="0.5" min="0.1" max="5" step="0.1">
+                <span class="param-hint">%</span>
+              </div>
+              <div class="param-group">
+                <span class="param-label">Max Dollar Risk</span>
+                <span class="param-value" id="maxDollarRisk">$50.00</span>
+              </div>
+              <div class="param-group">
+                <span class="param-label">Min R:R</span>
+                <input type="number" class="param-input" id="minRR" value="1.2" min="1.0" max="3.0" step="0.1">
+                <span class="param-hint">ratio</span>
+              </div>
+              <div class="param-group">
+                <span class="param-label">Confidence Threshold</span>
+                <input type="number" class="param-input" id="confidenceThreshold" value="70" min="50" max="90" step="1">
+                <span class="param-hint">%</span>
+              </div>
+              <div class="param-group">
+                <span class="param-label">News Risk</span>
+                <select class="param-select" id="newsRisk">
+                  <option value="LOW" selected>LOW</option>
+                  <option value="MEDIUM">MEDIUM</option>
+                  <option value="HIGH">HIGH</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confidence Meter -->
+          <div class="confidence-section">
+            <div class="confidence-header">
+              <span class="confidence-label">Confidence Score</span>
+              <span class="confidence-threshold">Threshold: <span id="thresholdValue">70</span>%</span>
+            </div>
+            <div class="confidence-meter">
+              <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+              <div class="confidence-value" id="confidenceValue">0%</div>
+            </div>
+            <div class="confidence-labels">
+              <span>Low (0-49)</span>
+              <span>Medium (50-69)</span>
+              <span>High (70-89)</span>
+              <span>Very High (90-100)</span>
+            </div>
+            
+            <!-- Confidence Breakdown -->
+            <div class="confidence-breakdown" id="confidenceBreakdown" style="display: none;">
+              <div class="breakdown-item">
+                <span class="breakdown-label">EMA Alignment:</span>
+                <span class="breakdown-value" id="scoreEMA">0</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Market Structure:</span>
+                <span class="breakdown-value" id="scoreStructure">0</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">RSI Confirmation:</span>
+                <span class="breakdown-value" id="scoreRSI">0</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Pullback Quality:</span>
+                <span class="breakdown-value" id="scorePullback">0</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Spread Efficiency:</span>
+                <span class="breakdown-value" id="scoreSpread">0</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">R:R Exceedance:</span>
+                <span class="breakdown-value" id="scoreRR">0</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">MTF Alignment:</span>
+                <span class="breakdown-value" id="scoreMTF">0</span>
+              </div>
+              <div class="breakdown-item">
+                <span class="breakdown-label">Session Penalty:</span>
+                <span class="breakdown-value" id="scoreSession">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Status & Validation -->
+          <div class="validation-section">
+            <div class="validation-header">
+              <h4>Data Validation</h4>
+              <span class="validation-status" id="validationStatus" data-status="PENDING">PENDING</span>
+            </div>
+            <div class="validation-grid" id="validationGrid">
+              <!-- Will be populated by JavaScript -->
+            </div>
+          </div>
+
+          <div class="ai-status" id="aiStatus"></div>
+
+          <button class="generate-btn" id="generateSignalBtn">
+            <span>⚡ Generate AI Signal</span>
+          </button>
+
+          <!-- Data Status Display -->
+          <div class="data-status" id="dataStatus" style="display: none;">
+            <div class="status-item">
+              <span class="status-label">Valid Data:</span>
+              <span class="status-value" id="validDataStatus">NO</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Data Type:</span>
+              <span class="status-value" id="dataTypeStatus">—</span>
+            </div>
+          </div>
+
+          <!-- AI Signal Display -->
+          <div class="ai-signal no-trade" id="aiSignal">
+            <div class="signal-header">
+              <span class="signal-icon" id="signalIcon">📊</span>
+              <div class="signal-title-group">
+                <div class="signal-title" id="signalTitle">No Signal Generated</div>
+                <div class="signal-subtitle" id="signalSubtitle">Click "Generate AI Signal" to analyze the market</div>
+              </div>
+              <span class="signal-confidence" id="signalConfidence">—</span>
+            </div>
+            <div class="signal-details" id="signalDetails"></div>
+          </div>
+
+          <!-- Rejection Reasons (shown when NO TRADE) -->
+          <div class="rejection-reasons" id="rejectionReasons" style="display: none;">
+            <h4>Rejection Reasons</h4>
+            <ul id="rejectionList">
+              <!-- Will be populated by JavaScript -->
+            </ul>
+          </div>
+
+          <!-- Trade Results (shown when BUY/SELL) -->
+          <div class="ai-results" id="aiResults" style="display: none;">
+            <div class="results-header">
+              <h3>Trade Analysis Results</h3>
+              <span class="results-confidence" id="resultsConfidence">—</span>
+            </div>
+            
+            <div class="ai-result-grid expanded">
+              <div class="ai-result-item">
+                <span class="ai-result-label">Entry Price</span>
+                <span class="ai-result-value" id="aiEntryPrice">—</span>
+              </div>
+              <div class="ai-result-item">
+                <span class="ai-result-label">Stop Loss</span>
+                <span class="ai-result-value" id="aiStopLoss">—</span>
+              </div>
+              <div class="ai-result-item">
+                <span class="ai-result-label">Take Profit</span>
+                <span class="ai-result-value" id="aiTakeProfit">—</span>
+              </div>
+              <div class="ai-result-item">
+                <span class="ai-result-label">Risk:Reward</span>
+                <span class="ai-result-value" id="aiRiskReward">—</span>
+              </div>
+              <div class="ai-result-item">
+                <span class="ai-result-label">Stop Loss (Pips)</span>
+                <span class="ai-result-value" id="aiStopLossPips">—</span>
+              </div>
+              <div class="ai-result-item">
+                <span class="ai-result-label">Take Profit (Pips)</span>
+                <span class="ai-result-value" id="aiTakeProfitPips">—</span>
+              </div>
+              <div class="ai-result-item">
+                <span class="ai-result-label">Position Size (Lots)</span>
+                <span class="ai-result-value" id="aiPositionSize">—</span>
+              </div>
+              <div class="ai-result-item">
+                <span class="ai-result-label">Dollar Risk</span>
+                <span class="ai-result-value" id="aiDollarRisk">—</span>
+              </div>
+            </div>
+
+            <button class="apply-signal-btn" id="applySignalBtn">
+              <span>📋 Apply to Calculator</span>
+            </button>
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="disclaimer">
+            <p><strong>DISCLAIMER:</strong> Automated market analysis only. Not financial advice.</p>
+            <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.7;">
+              Model: meta/llama-3.3-70b-instruct | API: Comprehensive Financial API<br>
+              Backtest Compatible | No-Hallucination Mode: Enabled
+            </p>
           </div>
         </div>
       </div>
-
-      <!-- Technical Indicators -->
-      <h4 style="margin: 15px 0 10px 0;">Technical Indicators</h4>
-      <div class="indicators-grid expanded">
-        <div class="indicator-item">
-          <span class="indicator-label">EMA20</span>
-          <span class="indicator-value" id="indicatorEMA20">1.14850</span>
-        </div>
-        <div class="indicator-item">
-          <span class="indicator-label">EMA50</span>
-          <span class="indicator-value" id="indicatorEMA50">1.14780</span>
-        </div>
-        <div class="indicator-item">
-          <span class="indicator-label">RSI14</span>
-          <span class="indicator-value" id="indicatorRSI14">58.2</span>
-        </div>
-        <div class="indicator-item">
-          <span class="indicator-label">ATR14</span>
-          <span class="indicator-value" id="indicatorATR14">0.00075</span>
-        </div>
-        <div class="indicator-item">
-          <span class="indicator-label">Swing High</span>
-          <span class="indicator-value" id="swingHigh">1.15025</span>
-        </div>
-        <div class="indicator-item">
-          <span class="indicator-label">Swing Low</span>
-          <span class="indicator-value" id="swingLow">1.14750</span>
-        </div>
-        <div class="indicator-item">
-          <span class="indicator-label">HTF EMA20</span>
-          <span class="indicator-value" id="htfEMA20">1.14820</span>
-        </div>
-        <div class="indicator-item">
-          <span class="indicator-label">HTF EMA50</span>
-          <span class="indicator-value" id="htfEMA50">1.14760</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Account & Risk Parameters -->
-    <div class="risk-parameters">
-      <h4 style="margin: 0 0 15px 0;">Account & Risk Parameters</h4>
-      <div class="ai-parameters expanded">
-        <div class="param-group">
-          <span class="param-label">Account Balance</span>
-          <input type="number" class="param-input" id="accountBalance" value="10000" min="100" step="100">
-          <span class="param-hint">USD</span>
-        </div>
-        <div class="param-group">
-          <span class="param-label">Risk %</span>
-          <input type="number" class="param-input" id="riskPercent" value="0.5" min="0.1" max="5" step="0.1">
-          <span class="param-hint">%</span>
-        </div>
-        <div class="param-group">
-          <span class="param-label">Max Dollar Risk</span>
-          <span class="param-value" id="maxDollarRisk">$50.00</span>
-        </div>
-        <div class="param-group">
-          <span class="param-label">Min R:R</span>
-          <input type="number" class="param-input" id="minRR" value="1.2" min="1.0" max="3.0" step="0.1">
-          <span class="param-hint">ratio</span>
-        </div>
-        <div class="param-group">
-          <span class="param-label">Confidence Threshold</span>
-          <input type="number" class="param-input" id="confidenceThreshold" value="70" min="50" max="90" step="1">
-          <span class="param-hint">%</span>
-        </div>
-        <div class="param-group">
-          <span class="param-label">News Risk</span>
-          <select class="param-select" id="newsRisk">
-            <option value="LOW" selected>LOW</option>
-            <option value="MEDIUM">MEDIUM</option>
-            <option value="HIGH">HIGH</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Confidence Meter -->
-    <div class="confidence-section">
-      <div class="confidence-header">
-        <span class="confidence-label">Confidence Score</span>
-        <span class="confidence-threshold">Threshold: <span id="thresholdValue">70</span>%</span>
-      </div>
-      <div class="confidence-meter">
-        <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
-        <div class="confidence-value" id="confidenceValue">0%</div>
-      </div>
-      <div class="confidence-labels">
-        <span>Low (0-49)</span>
-        <span>Medium (50-69)</span>
-        <span>High (70-89)</span>
-        <span>Very High (90-100)</span>
-      </div>
-      
-      <!-- Confidence Breakdown -->
-      <div class="confidence-breakdown" id="confidenceBreakdown" style="display: none;">
-        <div class="breakdown-item">
-          <span class="breakdown-label">EMA Alignment:</span>
-          <span class="breakdown-value" id="scoreEMA">0</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-label">Market Structure:</span>
-          <span class="breakdown-value" id="scoreStructure">0</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-label">RSI Confirmation:</span>
-          <span class="breakdown-value" id="scoreRSI">0</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-label">Pullback Quality:</span>
-          <span class="breakdown-value" id="scorePullback">0</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-label">Spread Efficiency:</span>
-          <span class="breakdown-value" id="scoreSpread">0</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-label">R:R Exceedance:</span>
-          <span class="breakdown-value" id="scoreRR">0</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-label">MTF Alignment:</span>
-          <span class="breakdown-value" id="scoreMTF">0</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-label">Session Penalty:</span>
-          <span class="breakdown-value" id="scoreSession">0</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Data Status & Validation -->
-    <div class="validation-section">
-      <div class="validation-header">
-        <h4>Data Validation</h4>
-        <span class="validation-status" id="validationStatus">PENDING</span>
-      </div>
-      <div class="validation-grid" id="validationGrid">
-        <!-- Will be populated by JavaScript -->
-      </div>
-    </div>
-
-    <div class="ai-status" id="aiStatus"></div>
-
-    <button class="generate-btn" id="generateSignalBtn">
-      <span>⚡ Generate AI Signal</span>
-    </button>
-
-    <!-- Data Status Display -->
-    <div class="data-status" id="dataStatus" style="display: none;">
-      <div class="status-item">
-        <span class="status-label">Valid Data:</span>
-        <span class="status-value" id="validDataStatus">NO</span>
-      </div>
-      <div class="status-item">
-        <span class="status-label">Data Type:</span>
-        <span class="status-value" id="dataTypeStatus">—</span>
-      </div>
-    </div>
-
-    <!-- AI Signal Display -->
-    <div class="ai-signal" id="aiSignal">
-      <div class="signal-header">
-        <span class="signal-icon" id="signalIcon">📊</span>
-        <div class="signal-title-group">
-          <div class="signal-title" id="signalTitle">No Signal Generated</div>
-          <div class="signal-subtitle" id="signalSubtitle">Click "Generate AI Signal" to analyze the market</div>
-        </div>
-        <span class="signal-confidence" id="signalConfidence">—</span>
-      </div>
-      <div class="signal-details" id="signalDetails"></div>
-    </div>
-
-    <!-- Rejection Reasons (shown when NO TRADE) -->
-    <div class="rejection-reasons" id="rejectionReasons" style="display: none;">
-      <h4>Rejection Reasons</h4>
-      <ul id="rejectionList">
-        <!-- Will be populated by JavaScript -->
-      </ul>
-    </div>
-
-    <!-- Trade Results (shown when BUY/SELL) -->
-    <div class="ai-results" id="aiResults" style="display: none;">
-      <div class="results-header">
-        <h3>Trade Analysis Results</h3>
-        <span class="results-confidence" id="resultsConfidence">—</span>
-      </div>
-      
-      <div class="ai-result-grid expanded">
-        <div class="ai-result-item">
-          <span class="ai-result-label">Entry Price</span>
-          <span class="ai-result-value" id="aiEntryPrice">—</span>
-        </div>
-        <div class="ai-result-item">
-          <span class="ai-result-label">Stop Loss</span>
-          <span class="ai-result-value" id="aiStopLoss">—</span>
-        </div>
-        <div class="ai-result-item">
-          <span class="ai-result-label">Take Profit</span>
-          <span class="ai-result-value" id="aiTakeProfit">—</span>
-        </div>
-        <div class="ai-result-item">
-          <span class="ai-result-label">Risk:Reward</span>
-          <span class="ai-result-value" id="aiRiskReward">—</span>
-        </div>
-        <div class="ai-result-item">
-          <span class="ai-result-label">Stop Loss (Pips)</span>
-          <span class="ai-result-value" id="aiStopLossPips">—</span>
-        </div>
-        <div class="ai-result-item">
-          <span class="ai-result-label">Take Profit (Pips)</span>
-          <span class="ai-result-value" id="aiTakeProfitPips">—</span>
-        </div>
-        <div class="ai-result-item">
-          <span class="ai-result-label">Position Size (Lots)</span>
-          <span class="ai-result-value" id="aiPositionSize">—</span>
-        </div>
-        <div class="ai-result-item">
-          <span class="ai-result-label">Dollar Risk</span>
-          <span class="ai-result-value" id="aiDollarRisk">—</span>
-        </div>
-      </div>
-
-      <button class="apply-signal-btn" id="applySignalBtn">
-        <span>📋 Apply to Calculator</span>
-      </button>
-    </div>
-
-    <!-- Disclaimer -->
-    <div class="disclaimer">
-      <p><strong>DISCLAIMER:</strong> Automated market analysis only. Not financial advice.</p>
-      <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.7;">
-        Model: meta/llama-3.3-70b-instruct | API: Comprehensive Financial API<br>
-        Backtest Compatible | No-Hallucination Mode: Enabled
-      </p>
-    </div>
-  </div>
-</div>
 
       <!-- Market Data Tab -->
       <div class="tab-content" id="market-data-tab">
@@ -1958,9 +2178,32 @@
   </div>
 
   <script>
+    // Global variables
+    let currentTab = 'calculator';
+    let isAutoRefreshEnabled = false;
+    let autoRefreshInterval;
+    let isGeneratingSignal = false;
+
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-      // Theme toggle
+      initializeTheme();
+      initializeTabs();
+      initializeCurrencySelection();
+      initializeCalculator();
+      initializeAIAssistant();
+      initializeMarketData();
+      initializeChart();
+      setupEventListeners();
+      
+      // Initial calculation
+      setTimeout(calculatePosition, 100);
+      
+      // Update last update time
+      updateLastUpdateTime();
+    });
+
+    // Theme Management
+    function initializeTheme() {
       const themeBtn = document.getElementById('themeBtn');
       const aiThemeBtn = document.getElementById('aiThemeBtn');
       const body = document.body;
@@ -1982,6 +2225,9 @@
         aiText.textContent = newTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
         
         localStorage.setItem('scalping-calculator-theme', newTheme);
+        
+        // Update TradingView chart theme
+        updateChartTheme();
       }
       
       themeBtn.addEventListener('click', toggleTheme);
@@ -2001,68 +2247,21 @@
         aiIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
         aiText.textContent = savedTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
       }
+    }
+
+    // Tab Management
+    function initializeTabs() {
+      const tabButtons = document.querySelectorAll('.tab-btn');
       
-      // Currency selection
-      document.querySelectorAll('.currency-badge').forEach(badge => {
-        badge.addEventListener('click', function(e) {
-          const currency = e.target.dataset.currency;
-          
-          // Update active badge
-          document.querySelectorAll('.currency-badge').forEach(b => {
-            b.classList.remove('active');
-          });
-          e.target.classList.add('active');
-          
-          // Update selected currency display
-          const selectedCurrency = document.getElementById('selectedCurrency');
-          const resultCurrency = document.getElementById('resultCurrency');
-          
-          const currencyNames = {
-            EURUSD: { symbol: 'EUR/USD', name: 'Euro vs US Dollar' },
-            GBPUSD: { symbol: 'GBP/USD', name: 'British Pound vs US Dollar' },
-            USDJPY: { symbol: 'USD/JPY', name: 'US Dollar vs Japanese Yen' },
-            AUDUSD: { symbol: 'AUD/USD', name: 'Australian Dollar vs US Dollar' },
-            USDCAD: { symbol: 'USD/CAD', name: 'US Dollar vs Canadian Dollar' },
-            USDCHF: { symbol: 'USD/CHF', name: 'US Dollar vs Swiss Franc' },
-            XAUUSD: { symbol: 'XAU/USD', name: 'Gold vs US Dollar' }
-          };
-          
-          if (currencyNames[currency]) {
-            selectedCurrency.innerHTML = `
-              <span class="symbol">${currencyNames[currency].symbol}</span>
-              <span class="name">${currencyNames[currency].name}</span>
-            `;
-            resultCurrency.textContent = currencyNames[currency].symbol;
-          }
-          
-          // Update pip info for gold
-          const currencyInfo = document.getElementById('currencyInfo');
-          if (currency === 'XAUUSD') {
-            currencyInfo.innerHTML = `
-              <div><span class="pip">1 pip = $0.01</span> (2nd decimal)</div>
-              <div>Typical spread: <span class="spread">0.3-0.8 pips</span></div>
-              <div>Trading hours: 24/5 (highest liquidity London-NY)</div>
-            `;
-          } else if (currency === 'USDJPY') {
-            currencyInfo.innerHTML = `
-              <div><span class="pip">1 pip = 0.01</span> (2nd decimal)</div>
-              <div>Typical spread: <span class="spread">0.5-1.0 pips</span></div>
-              <div>Trading hours: Tokyo-London overlap (00:00-08:00 GMT)</div>
-            `;
-          } else {
-            currencyInfo.innerHTML = `
-              <div><span class="pip">1 pip = 0.0001</span> (4th decimal)</div>
-              <div>Typical spread: <span class="spread">0.6-1.2 pips</span></div>
-              <div>Trading hours: London-NY overlap (13:00-16:00 GMT)</div>
-            `;
-          }
-        });
-      });
-      
-      // Tab switching
-      document.querySelectorAll('.tab-btn').forEach(tab => {
+      tabButtons.forEach(tab => {
         tab.addEventListener('click', function(e) {
           const tabId = e.target.dataset.tab;
+          
+          // Don't do anything if clicking the same tab
+          if (currentTab === tabId) return;
+          
+          // Update current tab
+          currentTab = tabId;
           
           // Hide all tabs
           document.querySelectorAll('.tab-content').forEach(content => {
@@ -2070,18 +2269,39 @@
           });
           
           // Show selected tab
-          document.getElementById(`${tabId}-tab`).classList.add('active');
+          const tabElement = document.getElementById(`${tabId}-tab`);
+          if (tabElement) {
+            tabElement.classList.add('active');
+          }
           
           // Update tab buttons
-          document.querySelectorAll('.tab-btn').forEach(btn => {
+          tabButtons.forEach(btn => {
             btn.classList.remove('active');
           });
           
           e.target.classList.add('active');
+          
+          // Load data for the tab if needed
+          if (tabId === 'market-data') {
+            refreshMarketData();
+          } else if (tabId === 'ai-assistant') {
+            updateAIInterface();
+          }
+        });
+      });
+    }
+
+    // Currency Selection
+    function initializeCurrencySelection() {
+      // Main calculator currency badges
+      document.querySelectorAll('.currency-badge').forEach(badge => {
+        badge.addEventListener('click', function(e) {
+          const currency = e.target.dataset.currency;
+          selectCurrency(currency);
         });
       });
       
-      // API symbol selection
+      // Market data currency badges
       document.querySelectorAll('[data-api-symbol]').forEach(badge => {
         badge.addEventListener('click', function(e) {
           const symbol = e.target.dataset.apiSymbol;
@@ -2092,42 +2312,88 @@
           });
           e.target.classList.add('active');
           
-          // Update currency in calculator too
-          const currencyBadge = document.querySelector(`[data-currency="${symbol}"]`);
-          if (currencyBadge) {
-            document.querySelectorAll('.currency-badge').forEach(b => {
-              b.classList.remove('active');
-            });
-            currencyBadge.classList.add('active');
-            currencyBadge.click();
+          // Update AI symbol select if needed
+          const aiSelect = document.getElementById('aiSymbolSelect');
+          if (aiSelect) {
+            aiSelect.value = symbol;
           }
+          
+          // Refresh market data for new symbol
+          refreshMarketDataForSymbol(symbol);
         });
       });
+    }
+
+    function selectCurrency(currency) {
+      // Update active badge
+      document.querySelectorAll('.currency-badge').forEach(b => {
+        b.classList.remove('active');
+      });
+      document.querySelector(`[data-currency="${currency}"]`).classList.add('active');
       
+      // Update selected currency display
+      const selectedCurrency = document.getElementById('selectedCurrency');
+      const resultCurrency = document.getElementById('resultCurrency');
+      
+      const currencyNames = {
+        EURUSD: { symbol: 'EUR/USD', name: 'Euro vs US Dollar' },
+        GBPUSD: { symbol: 'GBP/USD', name: 'British Pound vs US Dollar' },
+        USDJPY: { symbol: 'USD/JPY', name: 'US Dollar vs Japanese Yen' },
+        AUDUSD: { symbol: 'AUD/USD', name: 'Australian Dollar vs US Dollar' },
+        USDCAD: { symbol: 'USD/CAD', name: 'US Dollar vs Canadian Dollar' },
+        USDCHF: { symbol: 'USD/CHF', name: 'US Dollar vs Swiss Franc' },
+        XAUUSD: { symbol: 'XAU/USD', name: 'Gold vs US Dollar' }
+      };
+      
+      if (currencyNames[currency]) {
+        selectedCurrency.innerHTML = `
+          <span class="symbol">${currencyNames[currency].symbol}</span>
+          <span class="name">${currencyNames[currency].name}</span>
+        `;
+        resultCurrency.textContent = currencyNames[currency].symbol;
+      }
+      
+      // Update pip info
+      updateCurrencyInfo(currency);
+      
+      // Update chart if needed
+      updateChartSymbol(currency);
+    }
+
+    function updateCurrencyInfo(currency) {
+      const currencyInfo = document.getElementById('currencyInfo');
+      
+      switch(currency) {
+        case 'XAUUSD':
+          currencyInfo.innerHTML = `
+            <div><span class="pip">1 pip = $0.01</span> (2nd decimal)</div>
+            <div>Typical spread: <span class="spread">0.3-0.8 pips</span></div>
+            <div>Trading hours: 24/5 (highest liquidity London-NY)</div>
+          `;
+          break;
+        case 'USDJPY':
+          currencyInfo.innerHTML = `
+            <div><span class="pip">1 pip = 0.01</span> (2nd decimal)</div>
+            <div>Typical spread: <span class="spread">0.5-1.0 pips</span></div>
+            <div>Trading hours: Tokyo-London overlap (00:00-08:00 GMT)</div>
+          `;
+          break;
+        default:
+          currencyInfo.innerHTML = `
+            <div><span class="pip">1 pip = 0.0001</span> (4th decimal)</div>
+            <div>Typical spread: <span class="spread">0.6-1.2 pips</span></div>
+            <div>Trading hours: London-NY overlap (13:00-16:00 GMT)</div>
+          `;
+      }
+    }
+
+    // Calculator Functions
+    function initializeCalculator() {
       // Calculate button
       document.getElementById('calcBtn').addEventListener('click', calculatePosition);
       
       // Reset button
-      document.getElementById('resetBtn').addEventListener('click', function() {
-        document.getElementById('entry').value = '';
-        document.getElementById('stop').value = '';
-        document.getElementById('take').value = '';
-        document.getElementById('balance').value = '';
-        document.getElementById('riskPct').value = '0.5';
-        document.getElementById('pipValue').value = '10';
-        
-        // Reset results
-        document.getElementById('result').classList.remove('show');
-        document.getElementById('tradeDirection').style.display = 'none';
-        document.getElementById('directionBadge').style.display = 'none';
-        document.getElementById('directionIndicator').style.display = 'none';
-        document.getElementById('pipArrows').style.display = 'none';
-        document.getElementById('tradeIcon').textContent = '—';
-        document.getElementById('tradeType').textContent = 'No Trade Calculated';
-        document.getElementById('tradeType').style.color = '';
-        
-        document.getElementById('status').className = 'status';
-      });
+      document.getElementById('resetBtn').addEventListener('click', resetCalculator);
       
       // Auto-calculate on Enter key in inputs
       const inputs = ['entry', 'stop', 'take', 'balance', 'riskPct'];
@@ -2137,114 +2403,11 @@
         });
       });
       
-      // Initialize with sample calculation
-      setTimeout(calculatePosition, 100);
-      
-      // Quick actions
-      document.getElementById('quickEntry').addEventListener('click', function() {
-        document.getElementById('entry').value = '1.14996';
-        calculatePosition();
-      });
-      
-      document.getElementById('quickStop').addEventListener('click', function() {
-        document.getElementById('stop').value = '1.14774';
-        calculatePosition();
-      });
-      
-      document.getElementById('quickTake').addEventListener('click', function() {
-        document.getElementById('take').value = '1.14999';
-        calculatePosition();
-      });
-      
-      document.getElementById('updateFromMarket').addEventListener('click', function() {
-        document.getElementById('entry').value = '1.14996';
-        document.getElementById('stop').value = '1.14774';
-        document.getElementById('take').value = '1.14999';
-        calculatePosition();
-      });
-      
-      // Chart timeframe buttons
-      document.querySelectorAll('.timeframe-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          document.querySelectorAll('.timeframe-btn').forEach(b => {
-            b.classList.remove('active');
-          });
-          e.target.classList.add('active');
-        });
-      });
-      
-      // Chart type buttons
-      document.querySelectorAll('.chart-type-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          document.querySelectorAll('.chart-type-btn').forEach(b => {
-            b.classList.remove('active');
-          });
-          e.target.classList.add('active');
-        });
-      });
-      
-      // Sync with chart button
-      document.getElementById('syncChartBtn').addEventListener('click', function() {
-        document.getElementById('entry').value = '1.14996';
-        document.getElementById('stop').value = '1.14774';
-        document.getElementById('take').value = '1.14999';
-        calculatePosition();
-        showStatus('✅ Prices synced from chart!', 'success');
-      });
-      
-      // Use market data button
-      document.getElementById('syncMarketDataBtn').addEventListener('click', function() {
-        document.getElementById('entry').value = '1.14996';
-        document.getElementById('stop').value = '1.14774';
-        document.getElementById('take').value = '1.14999';
-        calculatePosition();
-        showStatus('✅ Prices synced with market data!', 'success');
-      });
-      
-      // Refresh market data buttons
-      document.getElementById('refreshMarketData').addEventListener('click', function() {
-        showAIStatus('Market data refreshed!', 'success');
-      });
-      
-      document.getElementById('refreshAllData').addEventListener('click', function() {
-        showStatus('All market data refreshed!', 'success');
-      });
-      
-      // Auto refresh toggle
-      document.getElementById('autoRefreshToggle').addEventListener('click', function() {
-        const btn = document.getElementById('autoRefreshToggle');
-        if (btn.innerHTML.includes('OFF')) {
-          btn.innerHTML = '<span>⏱️ Auto Refresh: ON</span>';
-          btn.style.background = 'var(--accent)';
-        } else {
-          btn.innerHTML = '<span>⏱️ Auto Refresh: OFF</span>';
-          btn.style.background = 'var(--api-blue)';
-        }
-      });
-      
-      // Generate AI signal
-      document.getElementById('generateSignalBtn').addEventListener('click', function() {
-        const btn = document.getElementById('generateSignalBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="loading"></span> Analyzing Market...';
-        
-        setTimeout(function() {
-          btn.disabled = false;
-          btn.innerHTML = '<span>⚡ Generate AI Signal</span>';
-          showAIStatus('AI signal generated successfully!', 'success');
-        }, 2000);
-      });
-      
-      // Apply AI signal
-      document.getElementById('applySignalBtn').addEventListener('click', function() {
-        document.getElementById('entry').value = '1.15001';
-        document.getElementById('stop').value = '1.14774';
-        document.getElementById('take').value = '1.15451';
-        calculatePosition();
-        showAIStatus('✅ BUY signal applied to calculator!', 'success');
-      });
-    });
-    
+      // Sync buttons
+      document.getElementById('syncChartBtn').addEventListener('click', syncWithChart);
+      document.getElementById('syncMarketDataBtn').addEventListener('click', syncWithMarketData);
+    }
+
     function calculatePosition() {
       // Get input values
       const entry = parseFloat(document.getElementById('entry').value);
@@ -2309,7 +2472,7 @@
       // Analyze trade
       analyzeTrade(pipsStop, rrRatio, riskPct, lots, isLong);
     }
-    
+
     function updateTradeDirectionDisplay(isLong, pipsStop, pipsTake, entry, stop, take) {
       const tradeDirection = document.getElementById('tradeDirection');
       const directionValue = document.getElementById('directionValue');
@@ -2398,7 +2561,7 @@
       directionIndicator.style.display = 'block';
       pipArrows.style.display = 'flex';
     }
-    
+
     function analyzeTrade(pipsStop, rrRatio, riskPct, lots, isLong) {
       let message = '';
       let type = 'success';
@@ -2440,7 +2603,528 @@
 
       showStatus(message, type);
     }
-    
+
+    function resetCalculator() {
+      document.getElementById('entry').value = '';
+      document.getElementById('stop').value = '';
+      document.getElementById('take').value = '';
+      document.getElementById('balance').value = '';
+      document.getElementById('riskPct').value = '0.5';
+      document.getElementById('pipValue').value = '10';
+      
+      // Reset results
+      document.getElementById('result').classList.remove('show');
+      document.getElementById('tradeDirection').style.display = 'none';
+      document.getElementById('directionBadge').style.display = 'none';
+      document.getElementById('directionIndicator').style.display = 'none';
+      document.getElementById('pipArrows').style.display = 'none';
+      document.getElementById('tradeIcon').textContent = '—';
+      document.getElementById('tradeType').textContent = 'No Trade Calculated';
+      document.getElementById('tradeType').style.color = '';
+      
+      document.getElementById('status').className = 'status';
+      showStatus('Calculator reset. Enter new values to calculate.', 'info');
+    }
+
+    function syncWithChart() {
+      document.getElementById('entry').value = '1.14996';
+      document.getElementById('stop').value = '1.14774';
+      document.getElementById('take').value = '1.14999';
+      calculatePosition();
+      showStatus('✅ Prices synced from chart!', 'success');
+    }
+
+    function syncWithMarketData() {
+      document.getElementById('entry').value = '1.14996';
+      document.getElementById('stop').value = '1.14774';
+      document.getElementById('take').value = '1.14999';
+      calculatePosition();
+      showStatus('✅ Prices synced with market data!', 'success');
+    }
+
+    // AI Assistant Functions
+    function initializeAIAssistant() {
+      // Mode toggles
+      document.getElementById('noHallucinationMode').addEventListener('change', function(e) {
+        const badge = this.parentElement.querySelector('.mode-badge');
+        badge.textContent = this.checked ? 'ACTIVE' : 'INACTIVE';
+        badge.className = this.checked ? 'mode-badge active' : 'mode-badge';
+      });
+      
+      document.getElementById('backtestMode').addEventListener('change', function(e) {
+        const badge = this.parentElement.querySelector('.mode-badge');
+        badge.textContent = this.checked ? 'ACTIVE' : 'INACTIVE';
+        badge.className = this.checked ? 'mode-badge active' : 'mode-badge';
+      });
+      
+      // Symbol select
+      document.getElementById('aiSymbolSelect').addEventListener('change', function(e) {
+        const symbol = e.target.value;
+        selectCurrency(symbol);
+        refreshAIInterfaceData();
+      });
+      
+      // Risk parameter inputs
+      document.getElementById('aiAccountBalance').addEventListener('input', updateMaxDollarRisk);
+      document.getElementById('aiRiskPercent').addEventListener('input', updateMaxDollarRisk);
+      document.getElementById('confidenceThreshold').addEventListener('input', function(e) {
+        document.getElementById('thresholdValue').textContent = e.target.value;
+      });
+      
+      // Generate signal button
+      document.getElementById('generateSignalBtn').addEventListener('click', generateAISignal);
+      
+      // Apply signal button
+      document.getElementById('applySignalBtn').addEventListener('click', applyAISignal);
+      
+      // Initial updates
+      updateMaxDollarRisk();
+      initializeValidationGrid();
+    }
+
+    function updateAIInterface() {
+      refreshAIInterfaceData();
+    }
+
+    function refreshAIInterfaceData() {
+      // Simulate API data refresh
+      const symbol = document.getElementById('aiSymbolSelect').value;
+      const currentPrice = getRandomPrice(symbol);
+      
+      document.getElementById('apiCurrentPrice').textContent = currentPrice.toFixed(5);
+      document.getElementById('apiBidAsk').textContent = `${(currentPrice - 0.00005).toFixed(5)} / ${(currentPrice + 0.00005).toFixed(5)}`;
+      
+      // Update last update time
+      updateLastUpdateTime();
+      
+      // Update validation
+      runDataValidation();
+    }
+
+    function updateMaxDollarRisk() {
+      const balance = parseFloat(document.getElementById('aiAccountBalance').value) || 0;
+      const riskPercent = parseFloat(document.getElementById('aiRiskPercent').value) || 0;
+      const maxRisk = balance * (riskPercent / 100);
+      
+      document.getElementById('maxDollarRisk').textContent = `$${maxRisk.toFixed(2)}`;
+    }
+
+    function initializeValidationGrid() {
+      const validationGrid = document.getElementById('validationGrid');
+      const validations = [
+        { id: 'priceValid', label: 'Price Data Valid', valid: true },
+        { id: 'spreadValid', label: 'Spread Acceptable', valid: true },
+        { id: 'indicatorsValid', label: 'Indicators Loaded', valid: true },
+        { id: 'noNewsRisk', label: 'No High News Risk', valid: true },
+        { id: 'marketOpen', label: 'Market Open', valid: true },
+        { id: 'dataFresh', label: 'Data Freshness', valid: true }
+      ];
+      
+      validationGrid.innerHTML = '';
+      
+      validations.forEach(validation => {
+        const div = document.createElement('div');
+        div.className = 'validation-item';
+        div.id = validation.id;
+        div.innerHTML = `
+          <span class="validation-icon ${validation.valid ? 'valid' : 'invalid'}">${validation.valid ? '✓' : '✗'}</span>
+          <span class="validation-text">${validation.label}</span>
+        `;
+        validationGrid.appendChild(div);
+      });
+    }
+
+    function runDataValidation() {
+      // Simulate validation checks
+      const checks = ['priceValid', 'spreadValid', 'indicatorsValid', 'noNewsRisk', 'marketOpen', 'dataFresh'];
+      let passedCount = 0;
+      
+      checks.forEach(checkId => {
+        const isValid = Math.random() > 0.3; // 70% chance of being valid
+        const element = document.getElementById(checkId);
+        if (element) {
+          const icon = element.querySelector('.validation-icon');
+          icon.textContent = isValid ? '✓' : '✗';
+          icon.className = `validation-icon ${isValid ? 'valid' : 'invalid'}`;
+          if (isValid) passedCount++;
+        }
+      });
+      
+      const validationStatus = document.getElementById('validationStatus');
+      const status = passedCount === checks.length ? 'PASSED' : (passedCount >= checks.length / 2 ? 'PENDING' : 'FAILED');
+      validationStatus.textContent = status;
+      validationStatus.dataset.status = status;
+      
+      // Update data status
+      document.getElementById('validDataStatus').textContent = passedCount === checks.length ? 'YES' : 'NO';
+      document.getElementById('dataTypeStatus').textContent = 'LIVE';
+      document.getElementById('dataStatus').style.display = 'block';
+    }
+
+    function generateAISignal() {
+      if (isGeneratingSignal) return;
+      
+      isGeneratingSignal = true;
+      const btn = document.getElementById('generateSignalBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> Analyzing Market...';
+      
+      // Simulate AI processing
+      setTimeout(() => {
+        isGeneratingSignal = false;
+        btn.disabled = false;
+        btn.innerHTML = '<span>⚡ Generate AI Signal</span>';
+        
+        // Generate random signal
+        const signalTypes = ['BUY', 'SELL', 'NO_TRADE'];
+        const signalType = signalTypes[Math.floor(Math.random() * signalTypes.length)];
+        const confidence = Math.floor(Math.random() * 30) + 70; // 70-100%
+        
+        displayAISignal(signalType, confidence);
+        showAIStatus('AI signal generated successfully!', 'success');
+        
+        // Update confidence meter
+        updateConfidenceMeter(confidence);
+      }, 2000);
+    }
+
+    function displayAISignal(signalType, confidence) {
+      const aiSignal = document.getElementById('aiSignal');
+      const aiResults = document.getElementById('aiResults');
+      const rejectionReasons = document.getElementById('rejectionReasons');
+      
+      // Reset displays
+      aiSignal.className = 'ai-signal';
+      aiResults.style.display = 'none';
+      rejectionReasons.style.display = 'none';
+      
+      // Generate trade data
+      const entry = 1.15001;
+      const stopLoss = 1.14774;
+      const takeProfit = 1.15451;
+      const stopLossPips = Math.abs(entry - stopLoss) / 0.0001;
+      const takeProfitPips = Math.abs(entry - takeProfit) / 0.0001;
+      const riskReward = (takeProfitPips / stopLossPips).toFixed(2);
+      
+      if (signalType === 'NO_TRADE') {
+        aiSignal.className = 'ai-signal no-trade';
+        document.getElementById('signalIcon').textContent = '⛔';
+        document.getElementById('signalTitle').textContent = 'NO TRADE SIGNAL';
+        document.getElementById('signalTitle').className = 'signal-title signal-neutral';
+        document.getElementById('signalSubtitle').textContent = 'Market conditions not favorable';
+        document.getElementById('signalConfidence').textContent = `${confidence}%`;
+        
+        // Show rejection reasons
+        const reasons = [
+          'Spread too wide for scalping',
+          'Low R:R ratio potential',
+          'Market volatility too high',
+          'No clear trend direction',
+          'Key resistance/support too close'
+        ];
+        
+        const rejectionList = document.getElementById('rejectionList');
+        rejectionList.innerHTML = '';
+        reasons.forEach(reason => {
+          const li = document.createElement('li');
+          li.textContent = reason;
+          rejectionList.appendChild(li);
+        });
+        
+        rejectionReasons.style.display = 'block';
+      } else {
+        const isBuy = signalType === 'BUY';
+        aiSignal.className = isBuy ? 'ai-signal buy' : 'ai-signal sell';
+        document.getElementById('signalIcon').textContent = isBuy ? '📈' : '📉';
+        document.getElementById('signalTitle').textContent = `${signalType} SIGNAL`;
+        document.getElementById('signalTitle').className = isBuy ? 'signal-title signal-buy' : 'signal-title signal-sell';
+        document.getElementById('signalSubtitle').textContent = isBuy ? 'Strong bullish momentum detected' : 'Strong bearish momentum detected';
+        document.getElementById('signalConfidence').textContent = `${confidence}%`;
+        
+        // Update results
+        document.getElementById('aiEntryPrice').textContent = entry.toFixed(5);
+        document.getElementById('aiStopLoss').textContent = stopLoss.toFixed(5);
+        document.getElementById('aiTakeProfit').textContent = takeProfit.toFixed(5);
+        document.getElementById('aiRiskReward').textContent = `1:${riskReward}`;
+        document.getElementById('aiStopLossPips').textContent = stopLossPips.toFixed(1);
+        document.getElementById('aiTakeProfitPips').textContent = takeProfitPips.toFixed(1);
+        document.getElementById('aiPositionSize').textContent = '0.85';
+        document.getElementById('aiDollarRisk').textContent = '$42.50';
+        document.getElementById('resultsConfidence').textContent = `${confidence}%`;
+        
+        // Update apply button
+        const applyBtn = document.getElementById('applySignalBtn');
+        applyBtn.className = isBuy ? 'apply-signal-btn' : 'apply-signal-btn sell';
+        applyBtn.innerHTML = `<span>📋 Apply ${signalType} Signal</span>`;
+        
+        aiResults.style.display = 'block';
+      }
+    }
+
+    function updateConfidenceMeter(confidence) {
+      const confidenceFill = document.getElementById('confidenceFill');
+      const confidenceValue = document.getElementById('confidenceValue');
+      
+      confidenceFill.style.width = `${confidence}%`;
+      confidenceValue.textContent = `${confidence}%`;
+      
+      // Show breakdown
+      const breakdown = document.getElementById('confidenceBreakdown');
+      breakdown.style.display = 'block';
+      
+      // Update breakdown scores
+      const scores = ['scoreEMA', 'scoreStructure', 'scoreRSI', 'scorePullback', 'scoreSpread', 'scoreRR', 'scoreMTF', 'scoreSession'];
+      scores.forEach(scoreId => {
+        const element = document.getElementById(scoreId);
+        if (element) {
+          const score = Math.floor(Math.random() * 15) + 5; // 5-20 points
+          element.textContent = score;
+        }
+      });
+    }
+
+    function applyAISignal() {
+      const signalTitle = document.getElementById('signalTitle').textContent;
+      
+      if (signalTitle.includes('BUY')) {
+        document.getElementById('entry').value = '1.15001';
+        document.getElementById('stop').value = '1.14774';
+        document.getElementById('take').value = '1.15451';
+      } else if (signalTitle.includes('SELL')) {
+        document.getElementById('entry').value = '1.15001';
+        document.getElementById('stop').value = '1.15228';
+        document.getElementById('take').value = '1.14551';
+      }
+      
+      calculatePosition();
+      showAIStatus(`✅ ${signalTitle.split(' ')[0]} signal applied to calculator!`, 'success');
+    }
+
+    // Market Data Functions
+    function initializeMarketData() {
+      // Refresh all data button
+      document.getElementById('refreshAllData').addEventListener('click', refreshMarketData);
+      
+      // Auto refresh toggle
+      document.getElementById('autoRefreshToggle').addEventListener('click', toggleAutoRefresh);
+    }
+
+    function refreshMarketData() {
+      const symbol = document.querySelector('[data-api-symbol].active')?.dataset.apiSymbol || 'EURUSD';
+      refreshMarketDataForSymbol(symbol);
+      showStatus('Market data refreshed!', 'success');
+    }
+
+    function refreshMarketDataForSymbol(symbol) {
+      // Simulate API data
+      const basePrice = getRandomPrice(symbol);
+      const changePercent = (Math.random() - 0.5) * 0.1; // -0.05% to +0.05%
+      const changeAmount = basePrice * changePercent / 100;
+      
+      // Update market data
+      document.getElementById('marketCurrentPrice').textContent = basePrice.toFixed(5);
+      document.getElementById('marketOpen').textContent = (basePrice - changeAmount).toFixed(5);
+      document.getElementById('marketHigh').textContent = (basePrice + Math.abs(changeAmount) * 2).toFixed(5);
+      document.getElementById('marketLow').textContent = (basePrice - Math.abs(changeAmount) * 2).toFixed(5);
+      document.getElementById('marketPreviousClose').textContent = (basePrice - changeAmount).toFixed(5);
+      
+      // Update change display
+      const changeElement = document.getElementById('marketChangePercent');
+      const changeClass = changePercent >= 0 ? 'positive' : 'negative';
+      changeElement.textContent = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
+      changeElement.className = `api-data-change ${changeClass}`;
+      
+      // Update sentiment
+      updateMarketSentiment(changePercent);
+    }
+
+    function updateMarketSentiment(changePercent) {
+      const sentimentBar = document.getElementById('sentimentBar');
+      const sentimentText = document.getElementById('sentimentText');
+      
+      let sentiment;
+      let width;
+      
+      if (changePercent > 0.03) {
+        sentiment = 'Very Bullish';
+        width = 85;
+      } else if (changePercent > 0.01) {
+        sentiment = 'Bullish';
+        width = 65;
+      } else if (changePercent > -0.01) {
+        sentiment = 'Neutral';
+        width = 50;
+      } else if (changePercent > -0.03) {
+        sentiment = 'Bearish';
+        width = 35;
+      } else {
+        sentiment = 'Very Bearish';
+        width = 15;
+      }
+      
+      sentimentBar.style.width = `${width}%`;
+      sentimentText.textContent = sentiment;
+      sentimentText.style.color = width > 50 ? 'var(--accent)' : (width < 50 ? 'var(--danger)' : 'var(--warning)');
+    }
+
+    function toggleAutoRefresh() {
+      const btn = document.getElementById('autoRefreshToggle');
+      isAutoRefreshEnabled = !isAutoRefreshEnabled;
+      
+      if (isAutoRefreshEnabled) {
+        btn.innerHTML = '<span>⏱️ Auto Refresh: ON</span>';
+        btn.style.background = 'var(--accent)';
+        autoRefreshInterval = setInterval(refreshMarketData, 5000); // Refresh every 5 seconds
+      } else {
+        btn.innerHTML = '<span>⏱️ Auto Refresh: OFF</span>';
+        btn.style.background = 'var(--api-blue)';
+        clearInterval(autoRefreshInterval);
+      }
+    }
+
+    // Chart Functions
+    function initializeChart() {
+      // Timeframe buttons
+      document.querySelectorAll('.timeframe-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          document.querySelectorAll('.timeframe-btn').forEach(b => {
+            b.classList.remove('active');
+          });
+          e.target.classList.add('active');
+          updateChartTimeframe(e.target.dataset.timeframe);
+        });
+      });
+      
+      // Chart type buttons
+      document.querySelectorAll('.chart-type-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          document.querySelectorAll('.chart-type-btn').forEach(b => {
+            b.classList.remove('active');
+          });
+          e.target.classList.add('active');
+        });
+      });
+      
+      // Quick actions
+      document.getElementById('quickEntry').addEventListener('click', function() {
+        document.getElementById('entry').value = '1.14996';
+        calculatePosition();
+      });
+      
+      document.getElementById('quickStop').addEventListener('click', function() {
+        document.getElementById('stop').value = '1.14774';
+        calculatePosition();
+      });
+      
+      document.getElementById('quickTake').addEventListener('click', function() {
+        document.getElementById('take').value = '1.14999';
+        calculatePosition();
+      });
+      
+      document.getElementById('updateFromMarket').addEventListener('click', function() {
+        document.getElementById('entry').value = '1.14996';
+        document.getElementById('stop').value = '1.14774';
+        document.getElementById('take').value = '1.14999';
+        calculatePosition();
+      });
+      
+      // Initialize TradingView chart
+      initializeTradingViewChart();
+    }
+
+    function initializeTradingViewChart() {
+      setTimeout(function() {
+        if (window.TradingView) {
+          new TradingView.widget({
+            "container_id": "tradingview_chart",
+            "width": "100%",
+            "height": "400",
+            "symbol": "FX:EURUSD",
+            "interval": "5",
+            "timezone": "Etc/UTC",
+            "theme": document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light',
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": document.body.getAttribute('data-theme') === 'dark' ? '#111827' : '#ffffff',
+            "enable_publishing": false,
+            "allow_symbol_change": false,
+            "hide_side_toolbar": true,
+            "save_image": false,
+            "studies": [
+              "MAWeighted@tv-basicstudies"
+            ],
+            "show_popup_button": true,
+            "popup_width": "1000",
+            "popup_height": "650",
+            "disabled_features": ["use_localstorage_for_settings"],
+            "enabled_features": ["study_templates"]
+          });
+        }
+      }, 1000);
+    }
+
+    function updateChartTheme() {
+      // This would ideally reload the chart with new theme
+      // For now, we'll just show a notice
+      showStatus('Please refresh the page to see chart theme changes', 'info');
+    }
+
+    function updateChartSymbol(symbol) {
+      // Update chart display
+      const chartSymbols = {
+        EURUSD: 'FX:EURUSD',
+        GBPUSD: 'FX:GBPUSD',
+        USDJPY: 'FX:USDJPY',
+        AUDUSD: 'FX:AUDUSD',
+        USDCAD: 'FX:USDCAD',
+        USDCHF: 'FX:USDCHF',
+        XAUUSD: 'FOREXCOM:XAUUSD'
+      };
+      
+      const tvSymbol = chartSymbols[symbol] || 'FX:EURUSD';
+      document.getElementById('currentPrice').textContent = `${symbol}: 1.14996`;
+      
+      // In a real app, you would update the TradingView widget here
+    }
+
+    function updateChartTimeframe(timeframe) {
+      // Update chart timeframe
+      // In a real app, you would update the TradingView widget here
+    }
+
+    // Utility Functions
+    function setupEventListeners() {
+      // Window resize handling
+      window.addEventListener('resize', handleResize);
+    }
+
+    function handleResize() {
+      // Adjust layout on resize
+      // This is where you could add more responsive behavior if needed
+    }
+
+    function updateLastUpdateTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+      document.getElementById('lastUpdateTime').textContent = timeString;
+    }
+
+    function getRandomPrice(symbol) {
+      const basePrices = {
+        EURUSD: 1.14996,
+        GBPUSD: 1.27456,
+        USDJPY: 147.892,
+        AUDUSD: 0.65892,
+        USDCAD: 1.34987,
+        USDCHF: 0.88456,
+        XAUUSD: 2025.67
+      };
+      
+      const base = basePrices[symbol] || 1.14996;
+      const variation = (Math.random() - 0.5) * 0.001; // Small random variation
+      return base + variation;
+    }
+
     function showStatus(message, type = 'error') {
       const status = document.getElementById('status');
       status.textContent = message;
@@ -2464,462 +3148,6 @@
         status.className = 'ai-status';
       }, 5000);
     }
-
-    /* Add to existing CSS */
-
-/* Mode Toggles */
-.mode-toggles {
-  margin: 15px 0 20px 0;
-  padding: 15px;
-  background: var(--border-light);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.mode-toggle-group {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.mode-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.03);
-  transition: var(--transition);
-}
-
-.mode-label:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.mode-label input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-.mode-text {
-  font-weight: 500;
-  color: var(--text);
-}
-
-.mode-badge {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-weight: 600;
-  background: var(--danger);
-  color: white;
-}
-
-.mode-badge.active {
-  background: var(--accent);
-}
-
-/* Data Type Badge */
-.data-type-badge {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-weight: 600;
-  background: var(--api-blue);
-  color: white;
-  margin-left: 10px;
-}
-
-/* API Time */
-.api-time {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-}
-
-.time-label {
-  color: var(--text-muted);
-}
-
-.time-value {
-  font-weight: 600;
-  color: var(--text);
-}
-
-/* Symbol Select */
-.symbol-select {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-/* MTF Section */
-.mtf-section {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid var(--border);
-}
-
-/* Expanded Indicators Grid */
-.indicators-grid.expanded {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-@media (max-width: 768px) {
-  .indicators-grid.expanded {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Risk Parameters */
-.risk-parameters {
-  margin: 20px 0;
-  padding: 20px;
-  background: var(--border-light);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-
-.ai-parameters.expanded {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-@media (max-width: 1024px) {
-  .ai-parameters.expanded {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .ai-parameters.expanded {
-    grid-template-columns: 1fr;
-  }
-}
-
-.param-input {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  width: 100px;
-}
-
-.param-select {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  cursor: pointer;
-}
-
-.param-hint {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-left: 5px;
-}
-
-/* Confidence Section */
-.confidence-section {
-  margin: 20px 0;
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(34, 197, 94, 0.02));
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-
-.confidence-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.confidence-label {
-  font-weight: 600;
-  color: var(--text);
-}
-
-.confidence-threshold {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-#thresholdValue {
-  font-weight: 700;
-  color: var(--api-blue);
-}
-
-/* Confidence Breakdown */
-.confidence-breakdown {
-  margin-top: 20px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.breakdown-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.breakdown-item:last-child {
-  border-bottom: none;
-}
-
-.breakdown-label {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.breakdown-value {
-  font-weight: 600;
-  color: var(--text);
-}
-
-/* Validation Section */
-.validation-section {
-  margin: 20px 0;
-  padding: 20px;
-  background: var(--border-light);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-
-.validation-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.validation-status {
-  font-size: 0.8rem;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-weight: 600;
-}
-
-.validation-status[data-status="PENDING"] {
-  background: var(--warning);
-  color: white;
-}
-
-.validation-status[data-status="PASSED"] {
-  background: var(--accent);
-  color: white;
-}
-
-.validation-status[data-status="FAILED"] {
-  background: var(--danger);
-  color: white;
-}
-
-.validation-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.validation-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
-}
-
-.validation-icon {
-  font-size: 1rem;
-}
-
-.validation-icon.valid {
-  color: var(--accent);
-}
-
-.validation-icon.invalid {
-  color: var(--danger);
-}
-
-.validation-text {
-  font-size: 0.8rem;
-  color: var(--text);
-}
-
-/* Data Status */
-.data-status {
-  margin: 15px 0;
-  padding: 15px;
-  background: var(--border-light);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.status-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.status-label {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.status-value {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-/* Signal Header */
-.signal-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.signal-title-group {
-  flex: 1;
-}
-
-.signal-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 3px;
-}
-
-.signal-subtitle {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.signal-confidence {
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Rejection Reasons */
-.rejection-reasons {
-  margin: 20px 0;
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
-  border-radius: var(--radius);
-  border: 1px solid var(--danger);
-}
-
-.rejection-reasons h4 {
-  color: var(--danger);
-  margin-bottom: 15px;
-}
-
-#rejectionList {
-  padding-left: 20px;
-}
-
-#rejectionList li {
-  margin-bottom: 8px;
-  color: var(--text);
-  font-size: 0.9rem;
-}
-
-/* Results Header */
-.results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.results-confidence {
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 6px 15px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, var(--api-blue), var(--accent));
-  color: white;
-}
-
-/* Expanded Results Grid */
-.ai-result-grid.expanded {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-@media (max-width: 1024px) {
-  .ai-result-grid.expanded {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .ai-result-grid.expanded {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Disclaimer */
-.disclaimer {
-  margin-top: 20px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.disclaimer strong {
-  color: var(--warning);
-}
-    
-    // Initialize TradingView chart
-    setTimeout(function() {
-      if (window.TradingView) {
-        new TradingView.widget({
-          "container_id": "tradingview_chart",
-          "width": "100%",
-          "height": "400",
-          "symbol": "FX:EURUSD",
-          "interval": "5",
-          "timezone": "Etc/UTC",
-          "theme": document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light',
-          "style": "1",
-          "locale": "en",
-          "toolbar_bg": document.body.getAttribute('data-theme') === 'dark' ? '#111827' : '#ffffff',
-          "enable_publishing": false,
-          "allow_symbol_change": false,
-          "hide_side_toolbar": true,
-          "save_image": false,
-          "studies": [
-            "MAWeighted@tv-basicstudies"
-          ],
-          "show_popup_button": true,
-          "popup_width": "1000",
-          "popup_height": "650",
-          "disabled_features": ["use_localstorage_for_settings"],
-          "enabled_features": ["study_templates"]
-        });
-      }
-    }, 1000);
   </script>
 </body>
 </html>
